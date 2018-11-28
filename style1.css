@@ -22,6 +22,12 @@ head, body {
     height: 1000px;
     background-color: antiquewhite;
 }
+p {
+    position: absolute;
+    font-family:'Verdana';
+    font-size: 20px;
+    font-weight: 700;
+}
 table {
     font-weight: 500;
 	border-collapse: collapse;
@@ -33,10 +39,20 @@ td {
 	border: 2px solid #000000;
 	padding: 5px;}
 tr:hover {
-    background-color:lightblue;
 }
 tr:hover td {
-    background-color: transparent; /* or #000 */
+}
+.select1 {
+    position:absolute;
+    left: 1100px;
+    top:129px;
+    width:142px;
+}
+.selectBuy {
+    position:absolute;
+    left: 1100px;
+    top:249px;
+    width:132px;
 }
 .header {
     font-weight: bold;
@@ -46,7 +62,6 @@ cursor: pointer;
 -webkit-appearance: none;
 appearance: none;
 background-color: lightsteelblue;
-position: relative;
 padding: 0px;
 width: 30px;
 height: 20px;

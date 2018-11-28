@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
    </head>
-    
+    <p style="margin-left:1100px">Moja sprzedaż:</p>
+    <p style="margin-left:1100px; top:150px">Moje zakupy:</p>
+    <p style="margin-left:1100px; top:300px">Wprowadź nowe:</p>
     <body>
 <form method="post">
     <input type="submit" name="mainTable" id="mainTable" style="position:absolute; margin-left:50px; top:20px; height:31px;"  value="Pokaż wszystkie elementy" /><br/>
     <br>
     <input id="filter" type="text" name="filter" style="position:absolute; height:25px; margin-left:250px; top:20px" value=""><br>
+    <input id="BreakInput" type="text" name="BreakInput" style="position:absolute; height:15px; margin-left:250px; top:50px" value="1"><br>
     <br>
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script>
-function test() {
+function Cash_on_delivery() {
     if (document.getElementById("If_cash_on_delivery").checked == true) {
         document.getElementById("Cash_on_delivery").readOnly = false;
         document.getElementById("Cash_on_delivery").style.backgroundColor = 'white';
@@ -25,9 +28,17 @@ function test() {
     }
     
 }
+function CheckBuyValue() {
+   // if (document.getElementById("If_cash_on_delivery").checked == true && document.getElementById("Cash_on_delivery").value!="") {
+//        alert("asds");    
+//    } else {
+//        document.getElementById("BreakInput").value = 0;
+//    }
+}
 </script>
 
-<?php         
+<?php  
+//select_From_DB("");
 function lacz_bd() {  
   $db = new mysqli('localhost', 'Michal', '123', 'wskazniki');  
     if (! $db)
@@ -47,8 +58,11 @@ $wynik = $db->query($zapytanie);
 //obliczanie ilości rekordów
 $ile_znalezionych = $wynik->num_rows;
 //rozpoczynamy budowanie tabeli dla naszych danych
-echo '<table id="mainTable">';
-echo '<tr class="header"><td></td><td>In</td><td>Nazwa</td></td><td>Cena zakupu</td><td>Ilość</td><td>Data zakupu</td><td>Ile zam.</td></tr>';
+StartTable("mainTable");
+//echo '<table id="mainTable">';
+$parameter = array ("", "In", "Nazwa", "Cena zakupu", "Ilość", "Data zakupu", "Ile zam.");
+AddTableRow(7, "header", $parameter);
+//echo '<tr class="header"><td></td><td>In</td><td>Nazwa</td></td><td>Cena zakupu</td><td>Ilość</td><td>Data zakupu</td><td>Ile zam.</td></tr>';
 //pętla po rekordach z bazy
 $index = 0;
 $namesIndex = array();
@@ -83,8 +97,11 @@ for ($i=0; $i <$ile_znalezionych; $i++) {
 }
 echo '</table>';
 echo json_encode($namesIndex);
-echo '<form method="post"><table id="second" style="margin-left:1100px; width:400px; position:absolute; top:80px">';
+echo '<form method="post"><table id="sellTable" style="margin-left:1100px; width:400px; position:absolute; top:80px">';
 echo '<tr class="header"><td style="width:150px">Nazwa</td></td><td>Cena sprzedaży</td><td>Pobranie</td><td>Kwota pobrania</td></tr>';
+echo '</table>';
+echo '<form method="post"><table id="buyTable" style="margin-left:1100px; width:400px; position:absolute; top:200px">';
+echo '<tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>';
 echo '</table>';
 echo '<select class="select1" name="select1">';
 for ($i=0; $i <count ($namesIndex); $i++) {
@@ -92,64 +109,104 @@ for ($i=0; $i <count ($namesIndex); $i++) {
 }
 echo '</select>';
 echo  '<input type="text" class="select1" name="Sell_price" id="Sell_price" style="margin-left:150px; width: 70px;"/><br/>';
-echo '<input type="checkbox" class="select1" id="If_cash_on_delivery" style="margin-left:240px; width: 70px;" onclick="test()"/>';   
+echo '<input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:240px; width: 70px;" value="0"/>';   
 echo  '<input type="text" class="select1" name="Cash_on_delivery" id="Cash_on_delivery" style="margin-left:323px; width: 70px; background-color:#dddddd" readonly/><br/>';
-echo  '<input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 80px"  value="Zatwierdź" /></form>';
-mysqli_close($db);
-    /*
-$zapytanie = "SELECT * FROM wskazniki";
-//pobranie wyniku zapytania
-$wynik = $db->query($zapytanie);
-//obliczanie ilości rekordów
-$ile_znalezionych = $wynik->num_rows;
-//rozpoczynamy budowanie tabeli dla naszych danych
-echo '<table>';
-echo '<tr><td>Imie</td><td>Nazwisko</td></tr>';
-//pętla po rekordach z bazy 
-for ($i=0; $i <$ile_znalezionych; $i++)
-        {
-                $wiersz = $wynik->fetch_assoc();
-                echo '<tr>';
-                echo '<td>'.$wiersz['Item_ID'].'</td>';
-                echo '<td>'.$wiersz['Buy_date'].'</td>';
-                echo '</tr>';
-        }
-echo '</table>';  
-        $wynik = $db->query("SELECT * FROM item WHERE Name='DEFI Boost'");
-        $wiersz = $wynik->fetch_assoc();
-        echo $wiersz['ID'];*/
+echo  '<input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 100px; height: 30px;" onclick="CheckBuyValue()" value="Sprzedaj" />';
+    
+echo '<select class="selectBuy" name="selectBuy">';
+for ($i=0; $i <count ($namesIndex); $i++) {
+    echo '<option>'.$namesIndex[$i].'</option>';
+}
+echo '</select>';
+echo  '<input type="text" class="selectBuy" name="Buy_price" id="Buy_price" style="margin-left:140px; width: 70px;"/><br/>';   
+echo  '<input type="text" class="selectBuy" name="Quantity" id="Quantity" style="margin-left:220px; width: 50px;"/><br/>';
+$showSeller = ($db->query("SELECT Seller_name FROM seller")); 
+if ($showSeller->num_rows > 0) {
+    echo '<select class="selectBuy" name="selectSeller" style="margin-left:280px">';
+    while($row = $showSeller->fetch_assoc()) {
+        echo '<option>'.$row['Seller_name'].'</option>';
+    }
+    echo '</select>';
+}
+echo '</select>';
+echo  '<input type="submit" class="selectBuy" name="buyBtn" id="buyBtn" style="margin-left:450px; width: 100px; height: 30px;"  value="Zakup" /></form>';
+closeDB($db);
 }
 if(array_key_exists('mainTable',$_POST)){
     select_From_DB($_POST['filter']);
    // select_From_DB("ADDCO BOOST");
 }
-if (isset($_POST['sellBtn'])) {
+if (isset($_POST['sellBtn'])) { // Update record when SELL item
     //echo $_POST['select1'];
     //echo $_POST['Sell_price'];
     //echo $_POST['Cash_on_delivery'];
-    $db = lacz_bd();
-    $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['select1']."'";
-    $wynik0 = $db->query($selectItemId);
-    $itemID = $wynik0->fetch_assoc();
-    $selectOneItem = "SELECT ID FROM wskazniki WHERE delivered_to_Poland = 1 AND Item_ID = '".$itemID['ID']."'";
-    $wynik00 = $db->query($selectOneItem);
-    $ID = $wynik00->fetch_assoc();
-    $today = getdate();
-    $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-    //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
-    $updateSellValue = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."' WHERE ID=".$ID['ID'];
-    if ($db->query($updateSellValue)=== TRUE ) {
-        echo "Record updated successfully";
+    if ($_POST['Sell_price']=="") {
+        exit();
     } else {
-        echo "Error updating record: " . $db->error;
+        $db = lacz_bd();
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['select1']."'";
+        $wynik0 = $db->query($selectItemId);
+        $itemID = $wynik0->fetch_assoc();
+        $selectOneItem = "SELECT ID FROM wskazniki WHERE delivered_to_Poland = 1 AND Item_ID = '".$itemID['ID']."'";
+        $wynik00 = $db->query($selectOneItem);
+        $ID = $wynik00->fetch_assoc();
+        $today = getdate();
+        $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
+        //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
+        $updateSellValue = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."' WHERE ID=".$ID['ID'];
+        if ($db->query($updateSellValue)=== TRUE ) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . $db->error;
+        }
+        closeDB($db);
+        select_From_DB($_POST['filter']);
     }
-    
-    //echo $ID['ID'];
-    mysqli_close($db);
-    
 }
-function closeDB ($db){
+if (isset($_POST['buyBtn'])) { // Set record when BUY item
+    //echo $_POST['select1'];
+    //echo $_POST['Sell_price'];
+    //echo $_POST['Cash_on_delivery'];
+    if ($_POST['Buy_price']=="" Or $_POST['Quantity']=="") {
+        echo ("Wpisz wymagane dane");
+        exit();
+    } else {
+        $db = lacz_bd();
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";
+        $wynik0 = $db->query($selectItemId);
+        $itemID = $wynik0->fetch_assoc();
+        $selectSellerId = "SELECT ID FROM seller WHERE Seller_name = '".$_POST['selectSeller']."'";
+        $wynik01 = $db->query($selectSellerId);
+        $sellerID = $wynik01->fetch_assoc();
+        $today = getdate();
+        $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
+        echo $todayDate;
+        $singleItemPrice = ($_POST['Buy_price']) / ($_POST['Quantity']);
+        for ($i=0; $i<$_POST['Quantity']; $i++) {
+            $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].")";
+            if ($db->query($insertSQL)=== TRUE) {
+                echo "New record created successfully </br>";
+            } else {
+                echo "Error updating record: " . $db->error . " </br>";
+            }
+        }
+        closeDB($db);
+        select_From_DB($_POST['filter']);
+    }
+}
+function closeDB($db) {
     mysqli_close($db);
+}
+function StartTable($tableID) {
+    echo '<table id='.$tableID.'>' ;
+}
+function AddTableRow(int $index, $class, $parameter) {
+    echo '<tr class='.$class.'>';
+        for ($i=0; $i < $index; $i++) {
+            echo '<td>'.$parameter[$i].'</td>';
+        }
+    echo '</tr>';
+    //echo '<tr class="header"><td></td><td>In</td><td>Nazwa</td></td><td>Cena zakupu</td><td>Ilość</td><td>Data zakupu</td><td>Ile zam.</td></tr>';
 }
 ?>
  </body>
