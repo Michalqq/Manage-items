@@ -42,6 +42,16 @@ tr:hover {
 }
 tr:hover td {
 }
+.hisTable {
+    position: absolute;
+    margin-left: 970px;
+    margin-top: 300px;
+}
+.dateLabel {
+    position: absolute;
+    margin-top: 300px;
+    margin-left: 1110px;
+}
 .select1 {
     position:absolute;
     left: 970px;

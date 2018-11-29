@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
    </head>
     <p style="margin-left:970px; top:30px">Moja sprzedaż:</p>
     <p style="margin-left:970px; top:150px">Moje zakupy:</p>
@@ -36,6 +36,7 @@
     <input type="text" class="selectBuy" name="Buy_price" id="Buy_price" style="margin-left:140px; width: 70px;"/> 
     <input type="text" class="selectBuy" name="Quantity" id="Quantity" style="margin-left:220px; width: 50px;"/>
     <input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:240px; width: 70px;" value="0" onclick="CashOnDelivery()" >
+    <input type="submit" class="selectBuy" name="showHistory" id="showHistory" style="margin-left:500px; top: 329px; width: 120px; height: 30px;"  value="Pokaż" />
     
 <!--</form>-->
 
@@ -86,7 +87,7 @@ function query_DB($db, $sql) {
 function select_From_DB($Select) {
 //połaczenie z bazą
 $rowColor = array("#ffffff","#e1f2e1");
-    $db = lacz_bd();
+$db = lacz_bd();
 //zapytanie sql do bazy określające jakie dane mają zostać pobrane
 //$zapytanie = "SELECT * FROM wskazniki ORDER BY Buy_date";
 //pobranie wyniku zapytania
@@ -243,6 +244,35 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         closeDB($db);
         select_From_DB($_POST['filter']);
     }
+}
+if (isset($_POST['showHistory'])) { // Show action history 
+$rowColor = array("#ffffff","#e1f2e1");
+$db = lacz_bd();
+$wynik= query_DB($db, "SELECT * FROM wskazniki WHERE Last_action_date BETWEEN '".$_POST['dataStart']."' AND '".$_POST['dataStop']."'");
+$ile_znalezionych = $wynik->num_rows;
+    echo '<div class="hisTable">';
+StartTable("hisTable");
+$parameter = array ("In", "Nazwa", "Cena zakupu", "Cena sprzedaży", "Data zakupu", "Data sprzedaży", "Dostarczone do PL?", "Kwota pobrania");
+AddTableRow(8, "hisTable", $parameter);
+$index = 1;
+for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
+    $temp = 0;
+    $wiersz = $wynik->fetch_assoc();
+    echo '<tr style="background-color:'.$rowColor[($index % 2)].';hover {background-color: yellow}">';
+    echo '<td>'.$index.'</td>';
+    echo '<td style="width:10px">'.$wiersz['Item_ID'].'</td>';
+    echo '<td>'.$wiersz['Buy_price'].'</td>';
+    echo '<td style="width:150px">'.$wiersz['Sell_price'].'</td>';
+    echo '<td>'.$wiersz['Buy_date'].'</td>';
+    echo '<td>'.$wiersz['Sell_date'].'</td>';
+    echo '<td style="width:10px">'.$wiersz['delivered_to_Poland'].'</td>';
+    echo '<td style="width:10px">'.$wiersz['Cash_on_delivery'].'</td>';
+    echo '</tr>';
+    $index += 1;
+    }
+
+echo '</table>';  
+echo '</div>';
 }
 function closeDB($db) {
     mysqli_close($db);
