@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Lis 2018, 15:26
+-- Czas generowania: 29 Lis 2018, 13:31
 -- Wersja serwera: 10.1.37-MariaDB
 -- Wersja PHP: 7.2.12
 
@@ -21,6 +21,91 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `wskazniki`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `item`
+--
+
+CREATE TABLE `item` (
+  `ID` int(11) NOT NULL,
+  `Name` text COLLATE utf8_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `item`
+--
+
+INSERT INTO `item` (`ID`, `Name`) VALUES
+(1, 'ADDCO BOOST'),
+(2, 'ADDCO OilPressure'),
+(3, 'ADDCO OilTemp'),
+(4, 'ADDCO EGT'),
+(5, 'ADDCO AFR'),
+(6, 'ADDCO WaterTemp'),
+(10, 'DEFI Boost'),
+(11, 'DEFI OilPressure'),
+(12, 'DEFI OilTemp'),
+(13, 'DEFI EGT'),
+(20, 'Greddy Boost'),
+(21, 'Greddy OilPressure'),
+(22, 'Greddy OilTemp'),
+(23, 'Greddy EGT'),
+(30, 'Nakladki 4 x BREMBO Red'),
+(31, 'Nakladki 4 x BREMBO Blue'),
+(32, 'Nakladki 4 x BREMBO Yellow'),
+(33, 'Nakladki 4 x BREMBO Gold'),
+(50, 'Lotki male 4 szt.'),
+(51, 'Lotki duze 6 szt.'),
+(52, 'Lotki plaskie plastik 4 szt.'),
+(60, 'Blow Off 1.8t'),
+(70, 'Obudowa plaska potrojna 3x52mm'),
+(71, 'Obudowa na slupek potrojna 3x52mm'),
+(80, 'MP3 AUX USB Adapter 8PIN'),
+(90, 'Podstawka pod filtr oleju'),
+(98, 'Dystans 5mm'),
+(99, 'Daszek maly 52mm'),
+(100, 'OilPressure sensor czujnik'),
+(101, 'Boost sensor czujnik map'),
+(102, 'EGT sensor czujnik termopara'),
+(109, 'Trojnik M12x1.5 x 1/8NPT'),
+(110, 'Adapter do turbo wezyk Quick tap');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `seller`
+--
+
+CREATE TABLE `seller` (
+  `ID` int(11) NOT NULL,
+  `Seller_name` text COLLATE utf8_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+--
+-- Zrzut danych tabeli `seller`
+--
+
+INSERT INTO `seller` (`ID`, `Seller_name`) VALUES
+(1, 'PIVOT CAR ELECTRICAL PARTS'),
+(2, 'HANSSENTUNE Racing Store'),
+(3, 'LZONE PERFORMANCE Store'),
+(4, 'HUBsport DE Store'),
+(5, 'Performance Tuning Parts Store'),
+(6, 'Car Top ACE Store'),
+(7, 'REPLAITZ Store'),
+(8, 'EPMAN Racing Store'),
+(9, 'PQY RACING Store'),
+(10, 'banwinoto Official Store'),
+(11, 'Minespeed Store'),
+(12, 'TOSPORT RACING Store'),
+(13, 'WLR racing Store'),
+(14, 'WarmHome Store'),
+(15, 'MaxPeedingRods - official from webpage'),
+(16, 'TeamOne Store'),
+(17, 'CoCo Car Parts'),
+(18, 'Awesome for you store');
 
 -- --------------------------------------------------------
 
@@ -97,7 +182,7 @@ INSERT INTO `wskazniki` (`ID`, `Item_ID`, `Buy_date`, `Sell_date`, `Buy_price`, 
 (49, 110, '2018-08-28', NULL, 10.692, NULL, NULL, NULL, 4, 1),
 (50, 110, '2018-08-28', NULL, 10.692, NULL, NULL, NULL, 4, 1),
 (51, 21, '2018-08-31', NULL, 126.651, NULL, NULL, NULL, 2, 1),
-(52, 80, '2018-09-10', NULL, 81.365, NULL, NULL, NULL, 6, 1),
+(52, 80, '2018-09-10', '2018-11-29', 81.365, NULL, NULL, 147.2, 6, 1),
 (53, 4, '2018-09-25', NULL, 67.8725, NULL, NULL, NULL, 1, 1),
 (54, 4, '2018-09-25', NULL, 67.8725, NULL, NULL, NULL, 1, 1),
 (55, 109, '2018-09-26', NULL, 25.88, NULL, NULL, NULL, 12, 1),
@@ -131,11 +216,11 @@ INSERT INTO `wskazniki` (`ID`, `Item_ID`, `Buy_date`, `Sell_date`, `Buy_price`, 
 (83, 2, '2018-10-30', NULL, 65.4925, NULL, NULL, NULL, 1, 1),
 (84, 2, '2018-10-30', NULL, 65.4925, NULL, NULL, NULL, 1, 1),
 (85, 2, '2018-10-30', NULL, 65.4925, NULL, NULL, NULL, 1, 1),
-(86, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, NULL),
-(87, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, NULL),
-(88, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, NULL),
-(89, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, NULL),
-(90, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, NULL),
+(86, 101, '2018-11-07', '2018-11-29', 20.774, NULL, NULL, 64.4, 4, 1),
+(87, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, 1),
+(88, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, 1),
+(89, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, 1),
+(90, 101, '2018-11-07', NULL, 20.774, NULL, NULL, NULL, 4, 1),
 (91, 4, '2018-11-11', NULL, 66.6175, NULL, NULL, NULL, 1, NULL),
 (92, 4, '2018-11-11', NULL, 66.6175, NULL, NULL, NULL, 1, NULL),
 (93, 4, '2018-11-11', NULL, 66.6175, NULL, NULL, NULL, 1, NULL),
@@ -167,11 +252,27 @@ INSERT INTO `wskazniki` (`ID`, `Item_ID`, `Buy_date`, `Sell_date`, `Buy_price`, 
 (119, 102, '2018-10-26', NULL, 25.894, NULL, NULL, NULL, 14, 1),
 (120, 11, '2018-11-27', NULL, 83.045, NULL, NULL, NULL, 8, NULL),
 (121, 11, '2018-11-27', NULL, 83.045, NULL, NULL, NULL, 8, NULL),
-(122, 4, '2218-11-21', NULL, 41, NULL, NULL, NULL, 1, NULL);
+(122, 4, '2218-11-21', NULL, 41, NULL, NULL, NULL, 1, NULL),
+(123, 60, '2018-11-29', NULL, 51.0775, NULL, NULL, NULL, 3, NULL),
+(124, 60, '2018-11-29', NULL, 51.0775, NULL, NULL, NULL, 3, NULL),
+(125, 60, '2018-11-29', NULL, 51.0775, NULL, NULL, NULL, 3, NULL),
+(126, 60, '2018-11-29', NULL, 51.0775, NULL, NULL, NULL, 3, NULL);
 
 --
 -- Indeksy dla zrzutów tabel
 --
+
+--
+-- Indeksy dla tabeli `item`
+--
+ALTER TABLE `item`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indeksy dla tabeli `seller`
+--
+ALTER TABLE `seller`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indeksy dla tabeli `wskazniki`
@@ -184,10 +285,22 @@ ALTER TABLE `wskazniki`
 --
 
 --
+-- AUTO_INCREMENT dla tabeli `item`
+--
+ALTER TABLE `item`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
+--
+-- AUTO_INCREMENT dla tabeli `seller`
+--
+ALTER TABLE `seller`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT dla tabeli `wskazniki`
 --
 ALTER TABLE `wskazniki`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
