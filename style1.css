@@ -20,7 +20,7 @@ head, body {
 	transform-origin: top left;
     width: 750px;
     height: 1000px;
-    background-color: antiquewhite;
+    background-color: gainsboro;
 }
 p {
     position: absolute;
@@ -28,10 +28,15 @@ p {
     font-size: 20px;
     font-weight: 700;
 }
+p1 {
+    position: absolute;
+}
 table {
     font-weight: 500;
-	border-collapse: collapse;
-	width: 900px; }
+	border-collapse: collapse; }
+mainTableCSS {
+    width: 900px;
+}
 table#mainTable {
     margin-left: 15px;
 }
@@ -42,18 +47,34 @@ tr:hover {
 }
 tr:hover td {
 }
+.hisTableCSS {
+    position: absolute;
+    margin-left: 390px;
+    margin-top: 145px;
+    width: 750px;
+}
+.dateLabel {
+    position: absolute;
+    margin-top: 300px;
+    margin-left: 1110px;
+}
 .select1 {
     position:absolute;
-    left: 1100px;
+    left: 780px;
     top:129px;
     width:142px;
 }
 .selectBuy {
     position:absolute;
-    left: 1100px;
-    top:249px;
+    left: 780px;
+    top:269px;
     width:132px;
 }
+.header1 {
+    font-weight: bold;
+    font-size: 9px;
+    background-color: indianred;
+    width: 800px;}
 .header {
     font-weight: bold;
     background-color: indianred; }

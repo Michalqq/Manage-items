@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
    </head>
     <p style="margin-left:780px; top:30px">Moja sprzedaż:</p>
-    <p style="margin-left:780px; top:150px">Moje zakupy:</p>
+    <p style="margin-left:780px; top:170px">Moje zakupy:</p>
     <p style="margin-left:780px; top:300px">Historia działań:</p>
+    <p style="margin-left:780px; top:150px; font-size:14px">Pobrania:</p>
     
     <body>
     <div style="margin-top:-20px; height:45px; width:1900px;background-color:darkgrey"></div>
@@ -23,25 +24,48 @@
     <p1 style="left: 245px; position:absolute; top:15px"><b>Hasło:</b></p1> 
     <input id="password" type="password" name="password" style="position:absolute; height:25px; margin-left:295px; top:4px" value="123">
     <br>
-    <input type="submit" class="selectBuy" name="buyBtn" id="buyBtn" style="margin-left:450px; top: 230px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
-    <input type="submit" class="selectBuy" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-left:450px; top: 275px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
+    <input type="submit" class="selectBuy" name="buyBtn" id="buyBtn" style="margin-left:450px; top: 225px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
+    <input type="submit" class="selectBuy" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-left:450px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
+    <input type="submit" class="selectBuy" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-left:450px; top: 160px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
     <table id="sellTable" style="margin-left:780px; width:400px; position:absolute; top:80px">
     <tr class="header"><td style="width:150px">Nazwa</td></td><td>Cena sprzedaży</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
-    <table id="buyTable" style="margin-left:780px; width:400px; position:absolute; top:200px">
+    <table id="buyTable" style="margin-left:780px; width:400px; position:absolute; top:220px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
-    <input type="text" class="select1" name="Sell_price" id="Sell_price" style="margin-left:150px; width: 70px;"/>
-    <input type="text" class="select1" name="Cash_on_delivery" id="Cash_on_delivery" style="margin-left:325px; width: 70px; background-color:#dddddd" readonly/>
-    <input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 170px; height: 30px;" value="Sprzedaj" />
-    <input type="text" class="selectBuy" name="Buy_price" id="Buy_price" style="margin-left:145px; width: 70px;"/> 
-    <input type="text" class="selectBuy" name="Quantity" id="Quantity" style="margin-left:223px; width: 50px;"/>
+    <input type="text" class="select1" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="margin-left:150px; width: 70px;"/>
+    <input type="text" class="select1" name="Cash_on_delivery" id="Cash_on_delivery" style="margin-left:325px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
+    <input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 170px; height: 30px; top:115px" value="Sprzedaj" />
+    <input type="text" class="selectBuy" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="margin-left:145px; width: 70px;"/> 
+    <input type="text" class="selectBuy" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="margin-left:223px; width: 50px;"/>
     <input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:235px; width: 70px; margin-top:-0px" value="0" onclick="CashOnDelivery()" >
+    <select class="select1" name="select1">
+    </select>
+  <!--  <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
+    </select>-->
+    <select class="selectBuy" name="selectBuy">
+    </select>
+    <select class="selectBuy" name="selectSeller" style="margin-left:280px">
+    </select>
+
       
 <!--</form>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script>
+<script> 
+    function validate(evt,id) {
+  var theEvent = evt || window.event;
+  var key = theEvent.keyCode || theEvent.which;
+if (key!="8" && key!="37" && key!="39" ){
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;        
+      if( !regex.test(key) ) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+      } 
+ }
+}
+
 function CashOnDelivery() {
     if (document.getElementById("If_cash_on_delivery").checked == true) {
         document.getElementById("Cash_on_delivery").readOnly = false;
@@ -54,8 +78,16 @@ function CashOnDelivery() {
 }
 window.onload = function getTodayDate() {
     let data = new Date;
-    let fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + data.getDate();
-    let fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + (data.getDate()-1);
+    let fullDataToday;
+    let fullDataYesterday;
+    if (data.getDate()<10) fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + data.getDate();
+    else fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + data.getDate();
+    if (data.getDate()<10) fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
+    else fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
+    if (data.getMonth()-1<10) {
+        fullDataToday=fullDataToday.substr(0,5) + "0" + fullDataToday.substr(5,4);
+        fullDataYesterday=fullDataYesterday.substr(0,5) + "0" + fullDataYesterday.substr(5,4);
+    }
     document.getElementById("dataStop").value=fullDataToday;
     document.getElementById("dataStart").value=fullDataYesterday;
 }
@@ -138,6 +170,17 @@ if ($showSeller->num_rows > 0) {
     }
     echo '</select>';
 }
+    // Select POBRANIA
+    $showCashOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Cash_on_delivery IS NOT NULL AND delivered_to_Poland = 2")); 
+    if ($showCashOnDelivery->num_rows > 0) {
+    echo '<select class="selectBuy" name="selectCashOnDelivery" style="margin-left:90px; top:163px; width:300px">';
+    while($row = $showCashOnDelivery->fetch_assoc()) {
+        $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
+        $row2 = $showName->fetch_assoc();
+        echo '<option>'.$row2["Name"] .'_Kwota:_' .$row['Cash_on_delivery'].'_Data:_' .$row['Sell_date'].'</option>';
+    }
+    echo '</select>';
+}
 echo '</form>';
 closeDB($db);
 }
@@ -155,12 +198,12 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         $selectOneItem = "SELECT ID FROM wskazniki WHERE delivered_to_Poland = 1 AND Sell_price IS NULL AND Item_ID = '".$itemID['ID']."'";
         $wynik00 = $db->query($selectOneItem);
         $ID = $wynik00->fetch_assoc();
-        $today = getdate();  
+        $today = getdate(); 
         $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
         $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
-        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery']." WHERE ID=".$ID['ID'];
-        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery']." WHERE ID=".$ID['ID'];
+        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', de WHERE ID=".$ID['ID'];
+        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 3 Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", delivered_to_Poland = 2 WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
             echo "Record updated successfully";
@@ -186,10 +229,10 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         $sellerID = $wynik01->fetch_assoc();
         $today = getdate();
         $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-        //echo $todayDate;
+        $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
         $singleItemPrice = ($_POST['Buy_price']) / ($_POST['Quantity']);
         for ($i=0; $i<$_POST['Quantity']; $i++) {
-            $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayDate."')";
+            $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date, delivered_to_Poland) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayFullDate."', 0)";
             if ($db->query($insertSQL)=== TRUE) {
                 echo "New record created successfully </br>";
             } else {
@@ -215,7 +258,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         $ile_znalezionych = $wynik00->num_rows;
         $today = getdate();
         $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-         $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
+        $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
         if ($ile_znalezionych < $_POST['Quantity']) {
             echo ("Elementów w transporcie jest mniej niż potwierdzasz");
             closeDB($db);
@@ -235,33 +278,58 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         select_From_DB($_POST['filter']);
     }
 }
+if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
+    $data = explode("_", $_POST['selectCashOnDelivery']);
+    $db = lacz_bd();
+    $wynik0 = query_DB($db, "SELECT ID FROM item WHERE Name = '".$data[0]."'");
+    $itemID = $wynik0->fetch_assoc();
+    $todayFullDate = getFullDate(1);
+    $updateStatus = "UPDATE wskazniki SET delivered_to_Poland=3, Last_action_date='".$todayFullDate."' WHERE Item_ID=".$itemID['ID']." AND Sell_date = '".$data[4]."' AND Cash_on_delivery = ".$data[2];
+        if ($db->query($updateStatus)=== TRUE ) {
+            echo "Record updated successfully  </br>";
+        } else {
+            echo "Error updating record: " . $db->error . " </br>";
+        }
+}
 if (isset($_POST['showHistory'])) { // Show action history 
     historyTable("SELECT * FROM wskazniki WHERE Last_action_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59' ORDER BY Last_action_date DESC");
     select_From_DB($_POST['filter']);
 }
+function getFullDate($value) {
+$today = getdate(); 
+$todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
+$todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
+    if ($value == 1) {
+        return $todayFullDate;
+    } else {
+        return $todayDate;
+    }
+}
 function historyTable($sqlParam){
-$rowColor = array("#ffffff","#e1f2e1");
+$rowColor = array("#ffffff","#e1f2e1", "#dfe2a1", "#32933E");
 $db = lacz_bd();
 $wynik= query_DB($db, $sqlParam);
 $ile_znalezionych = $wynik->num_rows;
     echo '<div class="hisTableCSS">';
 StartTable("hisTable", 'hisTableCSS');
-$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaży", "Data sprzedaży", "Dstrcz do PL?", "Kwota pobran", "Ostatnio");
+$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaży", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio");
 AddTableRow(9, "header1", $parameter);
 $index = 1;
+$etap = array ("Transp do PL", "Transport do PL","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();
     $wynik2= query_DB($db, "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID']);
     $wiersz2 = $wynik2->fetch_assoc();
-    echo '<tr style="font-size:11px; background-color:'.$rowColor[($index % 2)].';hover {background-color: yellow}">';
+    if ($wiersz['delivered_to_Poland'] =="") $wiersz['delivered_to_Poland'] = 0;
+    echo '<tr style="font-size:11px; background-color:'.$rowColor[($wiersz['delivered_to_Poland'])].';hover {background-color: yellow}">';
     echo '<td>'.$index.'</td>';
     echo '<td style="width:35%">'.$wiersz2['Name'].'</td>';
     echo '<td style="width:10%">'.$wiersz['Buy_price'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Buy_date'].'</td>';
     echo '<td style="width:10%">'.$wiersz['Sell_price'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Sell_date'].'</td>';
-    echo '<td style="width:5%">'.$wiersz['delivered_to_Poland'].'</td>';
+    echo '<td style="width:5%">'.$etap[$wiersz['delivered_to_Poland']].'</td>';
     echo '<td>'.$wiersz['Cash_on_delivery'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Last_action_date'].'</td>';
     echo '</tr>';
@@ -283,6 +351,7 @@ function AddTableRow(int $index, $class, $parameter) {
         }
     echo '</tr>';
 }
+
 ?>
  </body>
 </html>
