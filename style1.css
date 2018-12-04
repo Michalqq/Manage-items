@@ -10,6 +10,7 @@
  
   padding: 0;
 }
+
 head, body {
     font-family:'Verdana';
     font-size: 14px;
@@ -38,6 +39,7 @@ mainTableCSS {
 }
 table#mainTable {
     margin-left: 15px;
+    margin-top: -30px;
 }
 td {
 	border: 2px solid #000000;
@@ -48,13 +50,13 @@ tr:hover td {
 }
 .hisTableCSS {
     position: absolute;
-    margin-left: 390px;
-    margin-top: 145px;
-    width: 750px;
+    margin-left: 780px;
+    margin-top: 280px;
+    width: 652px;
 }
 .dateLabel {
     position: absolute;
-    margin-top: 300px;
+    margin-top: 230px;
     margin-left: 1110px;
 }
 .select1 {

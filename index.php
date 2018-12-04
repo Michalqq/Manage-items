@@ -8,14 +8,17 @@
     <p style="margin-left:780px; top:300px">Historia działań:</p>
     <p style="margin-left:780px; top:150px; font-size:14px">Pobrania:</p>
     
-    <body>
     <div style="margin-top:-20px; height:45px; width:1900px;background-color:darkgrey"></div>
+    
+    <body>
 <form method="post">
+    <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
+    <p1 style="left: 480px; position:absolute; top:55px"><b>Multiple-line:</b></p1> 
     <p1 class="dateLabel" style = "left: -130px">Od daty:</p1>
-        <input type="date" class="dateLabel" style="left: -130px; top:35px" id="dataStart" name="dataStart">
+    <input type="date" class="dateLabel" style="left: -130px; top:105px" id="dataStart" name="dataStart">
     <p1 class="dateLabel" style = "left: 20px">Do daty:</p1>
-        <input type="date" class="dateLabel" style="left: 20px; top:35px" id="dataStop" name="dataStop">
-    <input type="submit" name="mainTable" id="mainTable" style="position:absolute; margin-left:15px; top:50px; height:31px;"  value="Pokaż wszystkie elementy" /><br>
+    <input type="date" class="dateLabel" style="left: 20px; top:105px" id="dataStop" name="dataStop">
+    <input type="submit" name="mainTable" id="mainTable" style="position:absolute; margin-left:-585px; top:50px; height:31px;"  value="Pokaż wszystkie elementy" /><br>
     <input type="submit" class="selectBuy" name="showHistory" id="showHistory" style="margin-left:510px; top: 329px; width: 120px; height: 30px;"  value="Pokaż" />
     <p1 style="left: 230px; position:absolute; top:55px"><b>FILTR:</b></p1> 
     <input id="filter" type="text" name="filter" style="position:absolute; height:25px; margin-left:295px; top:50px" value=""><br>
@@ -34,11 +37,12 @@
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
     <input type="text" class="select1" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="margin-left:150px; width: 70px;"/>
+    <input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:235px; width: 70px; margin-top:-0px" value="0" onclick="CashOnDelivery()" >
     <input type="text" class="select1" name="Cash_on_delivery" id="Cash_on_delivery" style="margin-left:325px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
     <input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 170px; height: 30px; top:115px" value="Sprzedaj" />
     <input type="text" class="selectBuy" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="margin-left:145px; width: 70px;"/> 
     <input type="text" class="selectBuy" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="margin-left:223px; width: 50px;"/>
-    <input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:235px; width: 70px; margin-top:-0px" value="0" onclick="CashOnDelivery()" >
+ 
     <select class="select1" name="select1">
     </select>
   <!--  <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
@@ -48,7 +52,7 @@
     <select class="selectBuy" name="selectSeller" style="margin-left:280px">
     </select>
 
-      
+    </div>
 <!--</form>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -65,7 +69,10 @@ if (key!="8" && key!="37" && key!="39" ){
       } 
  }
 }
-
+function multipleList() {
+     if (document.getElementById("multiple_list").checked == true) document.getElementById("multiple_list").value=1
+    else document.getElementById("multiple_list").value=0;
+}
 function CashOnDelivery() {
     if (document.getElementById("If_cash_on_delivery").checked == true) {
         document.getElementById("Cash_on_delivery").readOnly = false;
@@ -128,19 +135,20 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $howRekordsDelivered = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland=1 AND Sell_price IS NULL"))->num_rows;
     $howRekordsOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland IS NULL"))->num_rows;
     $wiersz3 = $wynik3->fetch_assoc();
-    if ($wiersz3['Name'] != "") {
+    if ($wiersz3['Name'] != "" && $index != $howRekordsDelivered) {
         if (in_array ($wiersz3['Name'] , $namesIndex) == 1) $temp = 1;
+        if (isset($_POST['multiple_list'])) $temp=0;
         if ($temp != 1) {  
             array_push($namesIndex, $wiersz3['Name']);
             $index += 1;
             $colorIndex = ($index % 2);
             if ($howRekordsDelivered < 2 AND $howRekordsOnDelivery<1) $colorIndex=2;
             echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}">';
-            echo '<td></td>';
-            echo '<td style="width:2%">'.$index.'</td>';
             $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
             $wiersz2 = $wynik2->fetch_assoc();
+            echo "<td></td>";
+            echo '<td style="width:2%">'.$index.'</td>';
             echo '<td>'.$wiersz2['Name'].'</td>';
             echo '<td style="width:150px">'.$wiersz['Buy_price'].'</td>';
             echo '<td>'.$howRekordsDelivered.'</td>';
@@ -198,9 +206,8 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         $selectOneItem = "SELECT ID FROM wskazniki WHERE delivered_to_Poland = 1 AND Sell_price IS NULL AND Item_ID = '".$itemID['ID']."'";
         $wynik00 = $db->query($selectOneItem);
         $ID = $wynik00->fetch_assoc();
-        $today = getdate(); 
-        $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-        $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
+        $todayFullDate = getFullDate(1);
+        $todayDate = getFullDate(0);
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
         if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', de WHERE ID=".$ID['ID'];
         else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 3 Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", delivered_to_Poland = 2 WHERE ID=".$ID['ID'];
@@ -227,9 +234,8 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         $selectSellerId = "SELECT ID FROM seller WHERE Seller_name = '".$_POST['selectSeller']."'";
         $wynik01 = $db->query($selectSellerId);
         $sellerID = $wynik01->fetch_assoc();
-        $today = getdate();
-        $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-        $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
+        $todayFullDate = getFullDate(1);
+        $todayDate = getFullDate(0);
         $singleItemPrice = ($_POST['Buy_price']) / ($_POST['Quantity']);
         for ($i=0; $i<$_POST['Quantity']; $i++) {
             $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date, delivered_to_Poland) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayFullDate."', 0)";
@@ -256,9 +262,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         $selectUndeliveredItems = "SELECT ID FROM wskazniki WHERE delivered_to_Poland IS NULL AND Item_ID = '".$itemID['ID']."' ORDER BY Buy_date";
         $wynik00 = $db->query($selectUndeliveredItems);
         $ile_znalezionych = $wynik00->num_rows;
-        $today = getdate();
-        $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
-        $todayFullDate = $today['year']."-".$today['mon']."-".$today['mday']." ".$today['hours'].":".$today['minutes'].":".$today['seconds'].":";
+        $todayFullDate = getFullDate(1);
         if ($ile_znalezionych < $_POST['Quantity']) {
             echo ("Elementów w transporcie jest mniej niż potwierdzasz");
             closeDB($db);
@@ -310,9 +314,8 @@ $rowColor = array("#ffffff","#e1f2e1", "#dfe2a1", "#32933E");
 $db = lacz_bd();
 $wynik= query_DB($db, $sqlParam);
 $ile_znalezionych = $wynik->num_rows;
-    echo '<div class="hisTableCSS">';
 StartTable("hisTable", 'hisTableCSS');
-$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaży", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio");
+$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio");
 AddTableRow(9, "header1", $parameter);
 $index = 1;
 $etap = array ("Transp do PL", "Transport do PL","Za pobraniem", "Sprzedane");
@@ -324,11 +327,11 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     if ($wiersz['delivered_to_Poland'] =="") $wiersz['delivered_to_Poland'] = 0;
     echo '<tr style="font-size:11px; background-color:'.$rowColor[($wiersz['delivered_to_Poland'])].';hover {background-color: yellow}">';
     echo '<td>'.$index.'</td>';
-    echo '<td style="width:35%">'.$wiersz2['Name'].'</td>';
-    echo '<td style="width:10%">'.$wiersz['Buy_price'].'</td>';
+    echo '<td style="width:30%">'.$wiersz2['Name'].'</td>';
+    echo '<td style="width:8%">'.$wiersz['Buy_price'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Buy_date'].'</td>';
-    echo '<td style="width:10%">'.$wiersz['Sell_price'].'</td>';
-    echo '<td style="width:14%">'.$wiersz['Sell_date'].'</td>';
+    echo '<td style="width:8%">'.$wiersz['Sell_price'].'</td>';
+    echo '<td style="width:12%">'.$wiersz['Sell_date'].'</td>';
     echo '<td style="width:5%">'.$etap[$wiersz['delivered_to_Poland']].'</td>';
     echo '<td>'.$wiersz['Cash_on_delivery'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Last_action_date'].'</td>';
