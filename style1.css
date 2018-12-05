@@ -48,6 +48,14 @@ tr:hover {
 }
 tr:hover td {
 }
+.headerLogin {
+    position:static;
+    height: 45px;
+    width: 1850px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    margin-top:-15px;
+}
 .hisTableCSS {
     position: absolute;
     margin-left: 780px;

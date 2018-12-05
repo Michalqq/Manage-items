@@ -3,29 +3,34 @@
    <head>
     <link rel="stylesheet" type="text/css" href="style1.css">
    </head>
+    
+<form method="post">
+    <div class="headerLogin">
+        <p1 style="left: 10px; position:absolute; top:15px"><b>Login:</b></p1> 
+        <input id="login" type="text" name="login" style="position:absolute; height:25px; margin-left:60px; top:4px" value="Michal">
+        <p1 style="left: 245px; position:absolute; top:15px"><b>Hasło:</b></p1> 
+        <input id="password" type="password" name="password" style="position:absolute; height:25px; margin-left:295px; top:4px" value="123">
+    </div>
+    <body>
+  <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
+    <p1 style="left: 480px; position:absolute; top:55px"><b>Multiple-line:</b></p1> 
+    <p1 style="left: 230px; position:absolute; top:55px"><b>FILTR:</b></p1> 
+    <input id="filter" type="text" name="filter" style="position:relative; height:25px; margin-left:295px; top:0px" value=""><br>
+    
+    <input type="submit" name="mainTable" id="mainTable" style="position:relative;  top:0px; height:31px;"  value="Pokaż wszystkie elementy" /><br>
+    
+    <div style="position:fixed; background-color:lightblue">
+    
     <p style="margin-left:780px; top:30px">Moja sprzedaż:</p>
     <p style="margin-left:780px; top:170px">Moje zakupy:</p>
     <p style="margin-left:780px; top:300px">Historia działań:</p>
     <p style="margin-left:780px; top:150px; font-size:14px">Pobrania:</p>
-    
-    <div style="margin-top:-20px; height:45px; width:1900px;background-color:darkgrey"></div>
-    <body>
-<form method="post">
-    <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
-    <p1 style="left: 480px; position:absolute; top:55px"><b>Multiple-line:</b></p1> 
     <p1 class="dateLabel" style = "left: -130px">Od daty:</p1>
     <input type="date" class="dateLabel" style="left: -130px; top:105px" id="dataStart" name="dataStart">
     <p1 class="dateLabel" style = "left: 20px">Do daty:</p1>
     <input type="date" class="dateLabel" style="left: 20px; top:105px" id="dataStop" name="dataStop">
-    <input type="submit" name="mainTable" id="mainTable" style="position:absolute; margin-left:-585px; top:50px; height:31px;"  value="Pokaż wszystkie elementy" /><br>
     <input type="submit" class="selectBuy" name="showHistory" id="showHistory" style="margin-left:510px; top: 329px; width: 120px; height: 30px;"  value="Pokaż" />
-    <p1 style="left: 230px; position:absolute; top:55px"><b>FILTR:</b></p1> 
-    <input id="filter" type="text" name="filter" style="position:absolute; height:25px; margin-left:295px; top:50px" value=""><br>
-    <p1 style="left: 10px; position:absolute; top:15px"><b>Login:</b></p1> 
-    <input id="login" type="text" name="login" style="position:absolute; height:25px; margin-left:60px; top:4px" value="Michal">
-    <p1 style="left: 245px; position:absolute; top:15px"><b>Hasło:</b></p1> 
-    <input id="password" type="password" name="password" style="position:absolute; height:25px; margin-left:295px; top:4px" value="123">
-    <br>
+    
     <input type="submit" class="selectBuy" name="buyBtn" id="buyBtn" style="margin-left:450px; top: 225px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
     <input type="submit" class="selectBuy" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-left:450px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
     <input type="submit" class="selectBuy" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-left:450px; top: 160px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
@@ -51,6 +56,7 @@
     <select class="selectBuy" name="selectSeller" style="margin-left:280px">
     </select>
 
+    </div>
     </div>
 <!--</form>-->
 
