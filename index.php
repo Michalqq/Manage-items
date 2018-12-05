@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style3.css">
+       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
-    
+    <body>
 <form method="post">
     <div class="headerLogin">
-        <p1 style="left: 10px; position:relative; top:15px"><b>Login:</b></p1> 
-        <input id="login" class="firstLine" type="text" name="login" style="position:relative; height:25px; margin-left:60px;" value="Michal">
-        <p1 style="left: 245px; position:relative; top:15px"><b>Hasło:</b></p1> 
-        <input id="password" class="firstLine"  type="password" name="password" style="position:relative; height:25px; margin-left:295px;" value="123">
+        <p1 class="firstLine" style="left: 10px"><b>Login:</b></p1> 
+        <input id="login" class="firstLine" type="text" name="login" style="height:25px; left: 5px" value="Michal">
+        <p1 class="firstLine" style="left: 15px;"><b>Hasło:</b></p1> 
+        <input id="password" class="firstLine"  type="password" name="password" style="height:25px; left:10px;" value="123">
     </div>
-    <body>
-  <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
-    <p1 style="left: 480px; position:absolute; top:55px"><b>Multiple-line:</b></p1> 
-    <p1 style="left: 230px; position:absolute; top:55px"><b>FILTR:</b></p1> 
-    <input id="filter" type="text" name="filter" style="position:relative; height:25px; margin-left:295px; top:0px" value=""><br>
+    <div class="secondPart">
+    <input type="submit"  class="secondLine" name="mainTable" id="mainTable" style=" height:31px; margin-left:60px"  value="Pokaż wszystkie elementy" />
+    <p1  class="secondLine" style=""><b>FILTR:</b></p1> 
+    <input id="filter"  class="secondLine" type="text" name="filter" style="height:25px; margin-left:3px" value="">
+    <p1  class="secondLine" style=""><b>Multiple-line:</b></p1> 
+    <input type="checkbox" class="fas fa-check" name="multiple_list" id="multiple_list" style="font-size:20px; width: 40px; height: 35px; vertical-align: middle;" value="0" onclick="multipleList()" >
+    </div>
     
-    <input type="submit" name="mainTable" id="mainTable" style="position:relative;  top:0px; height:31px;"  value="Pokaż wszystkie elementy" /><br>
-    
-    <div style="position:fixed; background-color:lightblue">
     
     <p style="margin-left:780px; top:30px">Moja sprzedaż:</p>
     <p style="margin-left:780px; top:170px">Moje zakupy:</p>
