@@ -6,10 +6,10 @@
     
 <form method="post">
     <div class="headerLogin">
-        <p1 style="left: 10px; position:absolute; top:15px"><b>Login:</b></p1> 
-        <input id="login" type="text" name="login" style="position:absolute; height:25px; margin-left:60px; top:4px" value="Michal">
-        <p1 style="left: 245px; position:absolute; top:15px"><b>Hasło:</b></p1> 
-        <input id="password" type="password" name="password" style="position:absolute; height:25px; margin-left:295px; top:4px" value="123">
+        <p1 style="left: 10px; position:relative; top:15px"><b>Login:</b></p1> 
+        <input id="login" class="firstLine" type="text" name="login" style="position:relative; height:25px; margin-left:60px;" value="Michal">
+        <p1 style="left: 245px; position:relative; top:15px"><b>Hasło:</b></p1> 
+        <input id="password" class="firstLine"  type="password" name="password" style="position:relative; height:25px; margin-left:295px;" value="123">
     </div>
     <body>
   <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
