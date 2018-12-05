@@ -9,7 +9,6 @@
     <p style="margin-left:780px; top:150px; font-size:14px">Pobrania:</p>
     
     <div style="margin-top:-20px; height:45px; width:1900px;background-color:darkgrey"></div>
-    
     <body>
 <form method="post">
     <input type="checkbox" name="multiple_list" id="multiple_list" style="margin-left:585px; width: 40px; height: 30px; margin-top:10px" value="0" onclick="multipleList()" >
@@ -135,7 +134,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $howRekordsDelivered = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland=1 AND Sell_price IS NULL"))->num_rows;
     $howRekordsOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland IS NULL"))->num_rows;
     $wiersz3 = $wynik3->fetch_assoc();
-    if ($wiersz3['Name'] != "" && $index != $howRekordsDelivered) {
+    if ($wiersz3['Name'] != "" && ($index != $howRekordsDelivered || $index==0)) {
         if (in_array ($wiersz3['Name'] , $namesIndex) == 1) $temp = 1;
         if (isset($_POST['multiple_list'])) $temp=0;
         if ($temp != 1) {  
@@ -160,12 +159,15 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
 }
 echo '</table>';
 //echo json_encode($namesIndex);
-echo '<select class="select1" name="select1">';
-for ($i=0; $i <count ($namesIndex); $i++) {
-    echo '<option>'.$namesIndex[$i].'</option>';
+$wynik3= query_DB($db, "SELECT * FROM item ");
+$tempIndex = $wynik3 -> num_rows;
+echo '<select class="selectBuy" name="selectBuy">';
+for ($i=0; $i <$tempIndex; $i++) {
+    $wiersz3 = $wynik3->fetch_assoc();
+    echo '<option>'.$wiersz3['Name'].'</option>';
 }
 echo '</select>';
-echo '<select class="selectBuy" name="selectBuy">';
+echo '<select class="select1" name="select1">';
 for ($i=0; $i <count ($namesIndex); $i++) {
     echo '<option>'.$namesIndex[$i].'</option>';
 }
@@ -209,8 +211,8 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         $todayFullDate = getFullDate(1);
         $todayDate = getFullDate(0);
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
-        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', de WHERE ID=".$ID['ID'];
-        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 3 Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", delivered_to_Poland = 2 WHERE ID=".$ID['ID'];
+        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3 WHERE ID=".$ID['ID'];
+        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery']." WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
             echo "Record updated successfully";
@@ -238,7 +240,7 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         $todayDate = getFullDate(0);
         $singleItemPrice = ($_POST['Buy_price']) / ($_POST['Quantity']);
         for ($i=0; $i<$_POST['Quantity']; $i++) {
-            $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date, delivered_to_Poland) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayFullDate."', 0)";
+            $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayFullDate."')";
             if ($db->query($insertSQL)=== TRUE) {
                 echo "New record created successfully </br>";
             } else {
