@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style3.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -17,62 +17,60 @@
     <p1  class="secondLine" style=""><b>FILTR:</b></p1> 
     <input id="filter"  class="secondLine" type="text" name="filter" style="height:25px; margin-left:3px" value="">
     <p1  class="secondLine" style=""><b>Multiple-line:</b></p1> 
-    <input type="checkbox" class="fas fa-check" name="multiple_list" id="multiple_list" style="font-size:20px; width: 40px; height: 35px; vertical-align: middle;" value="0" onclick="multipleList()" >
+    <input type="checkbox" name="multiple_list" id="multiple_list" style="font-size:20px; width: 40px; height: 35px; vertical-align: middle;" value="0" onclick="multipleList()" >
     </div>
-    
-    
-    <p style="margin-left:780px; top:30px">Moja sprzedaż:</p>
-    <p style="margin-left:780px; top:170px">Moje zakupy:</p>
-    <p style="margin-left:780px; top:300px">Historia działań:</p>
-    <p style="margin-left:780px; top:150px; font-size:14px">Pobrania:</p>
-    <p1 class="dateLabel" style = "left: -130px">Od daty:</p1>
-    <input type="date" class="dateLabel" style="left: -130px; top:105px" id="dataStart" name="dataStart">
-    <p1 class="dateLabel" style = "left: 20px">Do daty:</p1>
-    <input type="date" class="dateLabel" style="left: 20px; top:105px" id="dataStop" name="dataStop">
-    <input type="submit" class="selectBuy" name="showHistory" id="showHistory" style="margin-left:510px; top: 329px; width: 120px; height: 30px;"  value="Pokaż" />
-    
-    <input type="submit" class="selectBuy" name="buyBtn" id="buyBtn" style="margin-left:450px; top: 225px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
-    <input type="submit" class="selectBuy" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-left:450px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
-    <input type="submit" class="selectBuy" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-left:450px; top: 160px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
-    <table id="sellTable" style="margin-left:780px; width:400px; position:absolute; top:80px">
+    <div class="rightPanel">
+    <p style="top:-10px">Moja sprzedaż:</p>
+    <table id="sellTable" style="margin-left:0px; width:400px; position:relative; top:40px">
     <tr class="header"><td style="width:150px">Nazwa</td></td><td>Cena sprzedaży</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
-    <table id="buyTable" style="margin-left:780px; width:400px; position:absolute; top:220px">
+    <p style="top:140px">Moje zakupy:</p>
+    <p style="top:280px">Historia działań:</p>
+    <p style="top:120px; font-size:14px">Pobrania:</p>
+    <p1  class="dateLine" style = "top:0px; left: 190px">Od daty:</p1>
+    <input type="date" class="dateLine" style="top:15px; left: 185px;" id="dataStart" name="dataStart">
+    <p1  class="dateLine" style = "top:0px; left: 355px">Do daty:</p1>
+    <input type="date" class="dateLine" style="left: 345px; top:15px" id="dataStop" name="dataStop">
+    
+    <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
-    <input type="text" class="select1" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="margin-left:150px; width: 70px;"/>
-    <input type="checkbox" class="select1" name="If_cash_on_delivery" id="If_cash_on_delivery" style="margin-left:235px; width: 70px; margin-top:-0px" value="0" onclick="CashOnDelivery()" >
-    <input type="text" class="select1" name="Cash_on_delivery" id="Cash_on_delivery" style="margin-left:325px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
-    <input type="submit" class="select1" name="sellBtn" id="sellBtn" style="margin-left:450px; width: 170px; height: 30px; top:115px" value="Sprzedaj" />
-    <input type="text" class="selectBuy" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="margin-left:145px; width: 70px;"/> 
-    <input type="text" class="selectBuy" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="margin-left:223px; width: 50px;"/>
- 
-    <select class="select1" name="select1">
+    <input type="text" class="sellLine" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/>
+    <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:238px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
+    <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:320px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
+    <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:140px; width: 70px;"/> 
+    <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:222px; width: 50px;"/>
+    <!--<select class="select1" name="select1">
     </select>
-  <!--  <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
-    </select>-->
+    <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
+    </select>
     <select class="selectBuy" name="selectBuy">
     </select>
     <select class="selectBuy" name="selectSeller" style="margin-left:280px">
-    </select>
-
+    </select>-->
+    <div class="rightButtons">
+    <input type="submit" name="sellBtn" id="sellBtn" style="width: 170px; height: 30px" value="Sprzedaj" />
+    <input type="submit" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-top: 50px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
+    <input type="submit" name="buyBtn" id="buyBtn" style="margin-top: 50px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
+    <input type="submit" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-top:10px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
+    <input type="submit" name="showHistory" id="showHistory" style="margin-top: 17px; width: 120px; height: 30px;"  value="Pokaż" />
     </div>
     </div>
 <!--</form>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script> 
-    function validate(evt,id) {
-  var theEvent = evt || window.event;
-  var key = theEvent.keyCode || theEvent.which;
-if (key!="8" && key!="37" && key!="39" ){
+function validate(evt,id) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    if (key!="8" && key!="37" && key!="39" ){
         key = String.fromCharCode( key );
         var regex = /[0-9]|\./;        
-      if( !regex.test(key) ) {
-        theEvent.returnValue = false;
-        if(theEvent.preventDefault) theEvent.preventDefault();
-      } 
- }
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        } 
+    }
 }
 function multipleList() {
      if (document.getElementById("multiple_list").checked == true) document.getElementById("multiple_list").value=1
@@ -167,7 +165,7 @@ echo '</table>';
 //echo json_encode($namesIndex);
 $wynik3= query_DB($db, "SELECT * FROM item ");
 $tempIndex = $wynik3 -> num_rows;
-echo '<select class="selectBuy" name="selectBuy">';
+echo '<div class="rightPanel"> <select class="selectBuy" name="selectBuy">';
 for ($i=0; $i <$tempIndex; $i++) {
     $wiersz3 = $wynik3->fetch_assoc();
     echo '<option>'.$wiersz3['Name'].'</option>';
@@ -189,7 +187,7 @@ if ($showSeller->num_rows > 0) {
     // Select POBRANIA
     $showCashOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Cash_on_delivery IS NOT NULL AND delivered_to_Poland = 2")); 
     if ($showCashOnDelivery->num_rows > 0) {
-    echo '<select class="selectBuy" name="selectCashOnDelivery" style="margin-left:90px; top:163px; width:300px">';
+    echo '<select class="selectBuy" name="selectCashOnDelivery" style="margin-left:90px; top:-117px; width:300px">';
     while($row = $showCashOnDelivery->fetch_assoc()) {
         $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
         $row2 = $showName->fetch_assoc();
@@ -197,7 +195,7 @@ if ($showSeller->num_rows > 0) {
     }
     echo '</select>';
 }
-echo '</form>';
+echo '</div></form>';
 closeDB($db);
 }
 if(array_key_exists('mainTable',$_POST)){
@@ -326,7 +324,7 @@ StartTable("hisTable", 'hisTableCSS');
 $parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio");
 AddTableRow(9, "header1", $parameter);
 $index = 1;
-$etap = array ("Transp do PL", "Transport do PL","Za pobraniem", "Sprzedane");
+$etap = array ("Transp do PL", "W domu","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();

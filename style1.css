@@ -38,8 +38,8 @@ mainTableCSS {
     width: 900px;
 }
 table#mainTable {
-    margin-left: 15px;
-    margin-top: -30px;
+    margin-left: 0px;
+    margin-top: 10px;
 }
 td {
 	border: 2px solid #000000;
@@ -57,29 +57,70 @@ tr:hover td {
     margin-top:-15px;
 }
 .firstLine {
+    position: relative;
     top:5px;
+}
+.secondLine {
+    position: relative;
+    top:2px;
+}
+.secondPart {
+    position:static;
+    height: 45px;
+    width: 650px;
+    background-color:dodgerblue;
+    border-radius: 10px;
+    margin-top:0px;
+}
+.rightPanel {
+    position:fixed;
+    background-color:skyblue;
+    height: 340px;
+    width: 652px;
+    margin-left: 760px;
+    margin-top: -40px;
+    border-radius: 15px;
+}
+.rightButtons {
+    width: 170px;
+    left: 450px;
+    margin-top: 0px;
+    position: relative;
+    text-align: right;
 }
 .hisTableCSS {
     position: absolute;
-    margin-left: 780px;
-    margin-top: 280px;
+    margin-left: 760px;
+    margin-top: 320px;
     width: 652px;
+    z-index: -1;
 }
 .dateLabel {
     position: absolute;
     margin-top: 230px;
     margin-left: 1110px;
 }
+.sellLine {
+    position: absolute;
+    margin-top: 40px;
+}
+.buyLine {
+    position: absolute;
+    margin-top: 200px;
+}
+.dateLine {
+    position: absolute;
+    margin-top: 285px;
+}
 .select1 {
     position:absolute;
-    left: 780px;
-    top:129px;
+    margin-top:-869px;
     width:142px;
 }
 .selectBuy {
     position:absolute;
-    left: 780px;
-    top:269px;
+    left: 0px;
+    margin-top:-709px;
     width:132px;
 }
 .header1 {
@@ -94,14 +135,14 @@ input[type="checkbox"]{
 cursor: pointer;
 -webkit-appearance: none;
 appearance: none;
-background-color: lightsteelblue;
+background-color: grey;
 padding: 0px;
 width: 30px;
 height: 20px;
 transition: all .1s linear;
 }
 input[type="checkbox"]:checked{
-  background-color: darkgreen;
+  background-color: green;
 }
 input[type="checkbox"]:focus{
   outline: 0 none;
