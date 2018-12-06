@@ -48,6 +48,10 @@ tr:hover {
 }
 tr:hover td {
 }
+.mainTableClass{
+    width: 750px;
+    position: absolute;
+}
 .headerLogin {
     position:static;
     height: 45px;
@@ -75,7 +79,7 @@ tr:hover td {
 .rightPanel {
     position:fixed;
     background-color:skyblue;
-    height: 340px;
+    height: 355px;
     width: 652px;
     margin-left: 760px;
     margin-top: -40px;
@@ -85,7 +89,14 @@ tr:hover td {
     width: 170px;
     left: 450px;
     margin-top: 0px;
-    position: relative;
+    position: absolute;
+    text-align: right;
+}
+.selectsInput {
+    margin-top: -980px;
+    position: absolute;
+    width: 170px;
+    margin-left: 591px;
     text-align: right;
 }
 .hisTableCSS {
@@ -113,14 +124,15 @@ tr:hover td {
     margin-top: 285px;
 }
 .select1 {
-    position:absolute;
-    margin-top:-869px;
+    position:fixed;
+    margin-top:48px;
+    margin-left: 760px;
     width:142px;
 }
 .selectBuy {
-    position:absolute;
-    left: 0px;
-    margin-top:-709px;
+    position:fixed;
+    margin-left: 765px;
+    margin-top:209px;
     width:132px;
 }
 .header1 {

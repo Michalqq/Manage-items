@@ -48,6 +48,12 @@
     </select>
     <select class="selectBuy" name="selectSeller" style="margin-left:280px">
     </select>-->
+    <select id="histOption" name="histOption" class="dateLine" style="left:500px; top:40px; width:120px;">
+        <option value="4">Wszystko</option>
+        <option value="0">W transporcie</option>
+        <option value="1">W domu</option>
+        <option value="3">Sprzedane</option>
+    </select>
     <div class="rightButtons">
     <input type="submit" name="sellBtn" id="sellBtn" style="width: 170px; height: 30px" value="Sprzedaj" />
     <input type="submit" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-top: 50px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
@@ -121,6 +127,7 @@ function query_DB($db, $sql) {
     return $wynik;
 }
 function select_From_DB($Select) {
+    echo '<div class="mainTableClass">';
 //połaczenie z bazą
 $rowColor = array("#ffffff","#e1f2e1", "#FFFF9F");
 $db = lacz_bd();
@@ -162,10 +169,11 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     }
 }
 echo '</table>';
+echo '</div>';
 //echo json_encode($namesIndex);
 $wynik3= query_DB($db, "SELECT * FROM item ");
 $tempIndex = $wynik3 -> num_rows;
-echo '<div class="rightPanel"> <select class="selectBuy" name="selectBuy">';
+echo '<select class="selectBuy" name="selectBuy">';
 for ($i=0; $i <$tempIndex; $i++) {
     $wiersz3 = $wynik3->fetch_assoc();
     echo '<option>'.$wiersz3['Name'].'</option>';
@@ -178,7 +186,7 @@ for ($i=0; $i <count ($namesIndex); $i++) {
 echo '</select>';
 $showSeller = ($db->query("SELECT Seller_name FROM seller")); 
 if ($showSeller->num_rows > 0) {
-    echo '<select class="selectBuy" name="selectSeller" style="margin-left:280px">';
+    echo '<select class="selectBuy" style="left:275px" name="selectSeller" ';
     while($row = $showSeller->fetch_assoc()) {
         echo '<option>'.$row['Seller_name'].'</option>';
     }
@@ -187,7 +195,7 @@ if ($showSeller->num_rows > 0) {
     // Select POBRANIA
     $showCashOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Cash_on_delivery IS NOT NULL AND delivered_to_Poland = 2")); 
     if ($showCashOnDelivery->num_rows > 0) {
-    echo '<select class="selectBuy" name="selectCashOnDelivery" style="margin-left:90px; top:-117px; width:300px">';
+    echo '<select class="select1" name="selectCashOnDelivery" style="width:300px; top:135px; left:80px">';
     while($row = $showCashOnDelivery->fetch_assoc()) {
         $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
         $row2 = $showName->fetch_assoc();
@@ -302,7 +310,14 @@ if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
         }
 }
 if (isset($_POST['showHistory'])) { // Show action history 
-    historyTable("SELECT * FROM wskazniki WHERE Last_action_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59' ORDER BY Last_action_date DESC");
+    $histOption = $_POST['histOption'];
+    $sqlWhere="";
+    if ($histOption!=4) {
+        if ($histOption==0) $sqlWhere = " AND delivered_to_Poland IS NULL";
+        if ($histOption==1) $sqlWhere = " AND delivered_to_Poland = 1";
+        if ($histOption==3) $sqlWhere = " AND (delivered_to_Poland = 2 OR delivered_to_Poland = 3)";
+    }
+    historyTable("SELECT * FROM wskazniki WHERE Last_action_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59' ".$sqlWhere." ORDER BY Last_action_date DESC");
     select_From_DB($_POST['filter']);
 }
 function getFullDate($value) {
