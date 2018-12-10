@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
+
 <form method="post">
     <div class="headerLogin">
         <p1 class="firstLine" style="left: 10px"><b>Login:</b></p1> 
@@ -115,7 +116,7 @@ function lacz_bd() {
     $login = $_POST['login'];
     $db = new mysqli('localhost', $login, $password, 'wskazniki');  
     if ($db->connect_error) {
-        echo "Błąd logowania <br>" ;
+        AddEcho("Błąd logowania <br>") ;
         die('Connect Error: ' . $db->connect_error);
         return false;
     }
@@ -131,7 +132,7 @@ function select_From_DB($Select) {
 //połaczenie z bazą
 $rowColor = array("#ffffff","#e1f2e1", "#FFFF9F");
 $db = lacz_bd();
-$wynik= query_DB($db, "SELECT * FROM wskazniki ORDER BY Buy_date");
+$wynik= query_DB($db, "SELECT * FROM wskazniki WHERE Sell_price IS NULL ORDER BY Buy_date");
 $ile_znalezionych = $wynik->num_rows;
 StartTable("mainTable", "mainTableCSS");
 $parameter = array ("", "In", "Nazwa", "Cena zakupu", "Ilość", "Data zakupu", "Ile zam.");
@@ -145,7 +146,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $howRekordsDelivered = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland=1 AND Sell_price IS NULL"))->num_rows;
     $howRekordsOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland IS NULL"))->num_rows;
     $wiersz3 = $wynik3->fetch_assoc();
-    if ($wiersz3['Name'] != "" && ($index != $howRekordsDelivered || $index==0)) {
+    if ($wiersz3['Name'] != "" ) { //(&& $index != $howRekordsDelivered || $index==0)
         if (in_array ($wiersz3['Name'] , $namesIndex) == 1) $temp = 1;
         if (isset($_POST['multiple_list'])) $temp=0;
         if ($temp != 1) {  
@@ -227,9 +228,9 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery']." WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
-            echo "Record updated successfully";
+            AddEcho("Record updated successfully");
         } else {
-            echo "Error updating record: " . $db->error;
+            AddEcho("Error updating record: " . $db->error);
         }
         closeDB($db);
         select_From_DB($_POST['filter']);
@@ -237,7 +238,7 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
 }
 if (isset($_POST['buyBtn'])) { // Set record when BUY item
     if ($_POST['Buy_price']=="" Or $_POST['Quantity']=="") {
-        echo ("Wpisz wymagane dane");
+        AddEcho("Wpisz wymagane dane");
         closeDB($db);
         exit();
     } else {
@@ -254,9 +255,9 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         for ($i=0; $i<$_POST['Quantity']; $i++) {
             $insertSQL = "INSERT INTO wskazniki (Item_ID, Buy_date, Buy_price, seller_ID, Last_action_date) VALUES (".$itemID['ID'].", '".$todayDate."', ".$singleItemPrice.", ".$sellerID['ID'].", '".$todayFullDate."')";
             if ($db->query($insertSQL)=== TRUE) {
-                echo "New record created successfully </br>";
+                AddEcho("New record created successfully </br>");
             } else {
-                echo "Error updating record: " . $db->error . " </br>";
+                AddEcho("Error updating record: " . $db->error . " </br>");
             }
         }
     }
@@ -266,7 +267,7 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         
 if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to PL
     if ($_POST['Quantity']=="") {
-        echo ("Wpisz wymagane dane");
+        AddEcho("Wpisz wymagane dane");
         exit();
     } else {
         $db = lacz_bd();
@@ -278,7 +279,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         $ile_znalezionych = $wynik00->num_rows;
         $todayFullDate = getFullDate(1);
         if ($ile_znalezionych < $_POST['Quantity']) {
-            echo ("Elementów w transporcie jest mniej niż potwierdzasz");
+            AddEcho("Elementów w transporcie jest mniej niż potwierdzasz");
             closeDB($db);
             exit();  
         } else {
@@ -286,9 +287,9 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
                 $ID = $wynik00->fetch_assoc();
                 $updateDeliveryToPL = "UPDATE wskazniki SET delivered_to_Poland=1, Last_action_date='".$todayFullDate."' WHERE ID=".$ID['ID'];
                 if ($db->query($updateDeliveryToPL)=== TRUE ) {
-                    echo "Record updated successfully  </br>";
+                    AddEcho("Record updated successfully  </br>");
                 } else {
-                    echo "Error updating record: " . $db->error . " </br>";
+                    AddEcho("Error updating record: " . $db->error . " </br>");
                 }
             }
         }
@@ -304,12 +305,13 @@ if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
     $todayFullDate = getFullDate(1);
     $updateStatus = "UPDATE wskazniki SET delivered_to_Poland=3, Last_action_date='".$todayFullDate."' WHERE Item_ID=".$itemID['ID']." AND Sell_date = '".$data[4]."' AND Cash_on_delivery = ".$data[2];
         if ($db->query($updateStatus)=== TRUE ) {
-            echo "Record updated successfully  </br>";
+            AddEcho("Record updated successfully");
+            //echo "Record updated successfully  </br>";
         } else {
-            echo "Error updating record: " . $db->error . " </br>";
+            AddEcho("Error updating record: " . $db->error . " </br>");
         }
 }
-if (isset($_POST['showHistory'])) { // Show action history 
+if (isset($_POST['showHistory'])) { // Show action history
     $histOption = $_POST['histOption'];
     $sqlWhere="";
     if ($histOption!=4) {
@@ -374,6 +376,10 @@ function AddTableRow(int $index, $class, $parameter) {
             echo '<td>'.$parameter[$i].'</td>';
         }
     echo '</tr>';
+}
+function AddEcho($text) {
+   echo " <div style='position:absolute; width:500px; height:10px; z-index:2; left:1050px; top:0px'>
+        <p>".$text."</p></div> ";
 }
 
 ?>
