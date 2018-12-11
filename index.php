@@ -100,8 +100,9 @@ window.onload = function getTodayDate() {
     if (data.getDate()<10) fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + data.getDate();
     else fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + data.getDate();
     if (data.getDate()<10) fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
-    else fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
+    else fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + (data.getDate()-1);
     if (data.getMonth()-1<10) {
+        
         fullDataToday=fullDataToday.substr(0,5) + "0" + fullDataToday.substr(5,4);
         fullDataYesterday=fullDataYesterday.substr(0,5) + "0" + fullDataYesterday.substr(5,4);
     }
