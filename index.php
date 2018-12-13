@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -26,13 +26,13 @@
     <tr class="header"><td style="width:150px">Nazwa</td></td><td>Cena sprzedaży</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
     <p style="top:140px">Moje zakupy:</p>
-    <p style="top:280px">Historia działań:</p>
+    <p style="top:300px; left:300px; ">Historia działań:</p>
+    <p style="top:280px; font-size:14px">Przedział czasowy:</p>
     <p style="top:120px; font-size:14px">Pobrania:</p>
-    <p1  class="dateLine" style = "top:0px; left: 190px">Od daty:</p1>
-    <input type="date" class="dateLine" style="top:15px; left: 185px;" id="dataStart" name="dataStart">
-    <p1  class="dateLine" style = "top:0px; left: 355px">Do daty:</p1>
-    <input type="date" class="dateLine" style="left: 345px; top:15px" id="dataStop" name="dataStop">
-    
+    <p1  class="dateLine" style = "top:0px; left: 160px">Od daty:</p1>
+    <input type="date" class="dateLine" style="top:15px; left: 155px;" id="dataStart" name="dataStart">
+    <p1  class="dateLine" style = "top:0px; left: 315px">Do daty:</p1>
+    <input type="date" class="dateLine" style="left: 305px; top:15px" id="dataStop" name="dataStop">
     <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
@@ -49,7 +49,7 @@
     </select>
     <select class="selectBuy" name="selectSeller" style="margin-left:280px">
     </select>-->
-    <select id="histOption" name="histOption" class="dateLine" style="left:500px; top:40px; width:120px;">
+    <select id="histOption" name="histOption" class="dateLine" style="left:500px; top:50px; width:120px;">
         <option value="4">Wszystko</option>
         <option value="0">W transporcie</option>
         <option value="1">W domu</option>
@@ -60,8 +60,10 @@
     <input type="submit" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-top: 50px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
     <input type="submit" name="buyBtn" id="buyBtn" style="margin-top: 50px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
     <input type="submit" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-top:10px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
-    <input type="submit" name="showHistory" id="showHistory" style="margin-top: 17px; width: 120px; height: 30px;"  value="Pokaż" />
+    <input type="submit" name="showHistory" id="showHistory" style="margin-top: 15px; width: 120px; height: 30px;"  value="Pokaż historię" />
     </div>
+    <input type="submit" name="SellPriceSum" id="SellPriceSum" style="margin-top: 270px; margin-left:15px; width: 100px; height: 30px" value="Wart. sprzedaży"/>
+    <input type="submit" name="SellPriceNet" id="SellPriceNet" style="position:absolute; margin-top: 270px; left:130px; width:100px; height:30px" value="Wart. netto"/>
     </div>
 <!--</form>-->
 
@@ -322,6 +324,29 @@ if (isset($_POST['showHistory'])) { // Show action history
     }
     historyTable("SELECT * FROM wskazniki WHERE Last_action_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59' ".$sqlWhere." ORDER BY Last_action_date DESC");
     select_From_DB($_POST['filter']);
+}
+if (isset($_POST['SellPriceSum'])){ // Show Sum Sell Price
+    AddEcho(getSumSellPrice(1));
+    select_From_DB($_POST['filter']);
+}
+if (isset($_POST['SellPriceNet'])){ // Show Netto Sell Price
+    AddEcho(getSumSellPrice(2));
+    select_From_DB($_POST['filter']);
+}
+function getSumSellPrice($index) {
+    $db = lacz_bd();
+    $Sell_price = query_DB($db, "SELECT SUM(Sell_price) AS count FROM wskazniki WHERE Sell_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59'"); 
+    $Sell_price_SUM = 0;
+    $rec  = $Sell_price->fetch_assoc();
+    $Sell_price_SUM = round($rec['count'],2);
+    if ($index==2){
+        $Buy_price= query_DB($db, "SELECT SUM(Buy_price) AS count1 FROM wskazniki WHERE Sell_price IS NOT NULL AND (Sell_date BETWEEN '".$_POST['dataStart']." 00:00:00' AND '".$_POST['dataStop']." 23:59:59')");
+        $Buy_price_SUM = 0;
+        $rec1  = $Buy_price->fetch_assoc();
+        $Buy_price_SUM = round($rec1['count1'], 2);
+    }
+    if ($index==2) return ($Sell_price_SUM-$Buy_price_SUM)."zł";
+    else return $Sell_price_SUM."zł";
 }
 function getFullDate($value) {
 $today = getdate(); 
