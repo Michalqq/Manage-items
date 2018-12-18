@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -164,9 +164,9 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             echo "<td></td>";
             echo '<td style="width:2%">'.$index.'</td>';
             echo '<td>'.$wiersz2['Name'].'</td>';
-            echo '<td style="width:150px">'.$wiersz['Buy_price'].'</td>';
+            echo '<td style="width:100px">'.$wiersz['Buy_price'].'</td>';
             echo '<td>'.$howRekordsDelivered.'</td>';
-            echo '<td>'.$wiersz['Buy_date'].'</td>';
+            echo '<td style="width:100px">'.$wiersz['Buy_date'].'</td>';
             echo '<td style="width:2%">'.$howRekordsOnDelivery.'</td>';
             echo '</tr>';
         }
@@ -370,8 +370,8 @@ $db = lacz_bd();
 $wynik= query_DB($db, $sqlParam);
 $ile_znalezionych = $wynik->num_rows;
 StartTable("hisTable", 'hisTableCSS');
-$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio");
-AddTableRow(9, "header1", $parameter);
+$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio", "Zysk");
+AddTableRow(10, "header1", $parameter);
 $index = 1;
 $etap = array ("Transp do PL", "W domu","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
@@ -390,6 +390,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     echo '<td style="width:5%">'.$etap[$wiersz['delivered_to_Poland']].'</td>';
     echo '<td>'.$wiersz['Cash_on_delivery'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Last_action_date'].'</td>';
+    echo '<td style="width:14%">'.round(($wiersz['Sell_price']*100/$wiersz['Buy_price'])-100,1).'%</td>';
     echo '</tr>';
     $index += 1;
     }
