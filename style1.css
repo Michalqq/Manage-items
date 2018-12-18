@@ -31,6 +31,17 @@ p {
 p1 {
     position: absolute;
 }
+p2 {
+    position:static;
+    font-family:'Verdana';
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 700px;
+    
+}
+option.yellow {
+    background-color: yellow; 
+}
 table {
     font-weight: 500;
 	border-collapse: collapse; }
@@ -76,10 +87,10 @@ tr:hover td {
     border-radius: 10px;
     margin-top:0px;
 }
-.rightPanel {
+.rightPanel {  
     position:fixed;
     background-color:skyblue;
-    height: 355px;
+    height: 360px;
     width: 652px;
     margin-left: 760px;
     margin-top: -40px;
@@ -121,7 +132,7 @@ tr:hover td {
 }
 .dateLine {
     position: absolute;
-    margin-top: 285px;
+    margin-top: 275px;
 }
 .select1 {
     position:fixed;

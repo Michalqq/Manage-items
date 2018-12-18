@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -203,7 +203,13 @@ if ($showSeller->num_rows > 0) {
     while($row = $showCashOnDelivery->fetch_assoc()) {
         $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
         $row2 = $showName->fetch_assoc();
-        echo '<option>'.$row2["Name"] .'_Kwota:_' .$row['Cash_on_delivery'].'_Data:_' .$row['Sell_date'].'</option>';
+        //echo("<option>".strtotime($row['Sell_date'])."  ".strtotime(getFullDate(0))."</option>");
+        if (strtotime(getFullDate(0))-6*24*60*60>strtotime($row['Sell_date'])) {
+            echo '<option class="yellow">'.$row2["Name"] .'_Kwota:_' .$row['Cash_on_delivery'].'_Data:_' .$row['Sell_date'].'</option>';
+        } 
+        else{
+            echo '<option>'.$row2["Name"] .'_Kwota:_' .$row['Cash_on_delivery'].'_Data:_' .$row['Sell_date'].'</option>';
+        }
     }
     echo '</select>';
 }
