@@ -390,7 +390,9 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     echo '<td style="width:5%">'.$etap[$wiersz['delivered_to_Poland']].'</td>';
     echo '<td>'.$wiersz['Cash_on_delivery'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Last_action_date'].'</td>';
-    echo '<td style="width:14%">'.round(($wiersz['Sell_price']*100/$wiersz['Buy_price'])-100,1).'%</td>';
+    $profit = round(($wiersz['Sell_price']*100/$wiersz['Buy_price'])-100,1);
+    if ($profit == -100) {$profit="---";}
+    echo '<td style="width:14%">'.$profit.'%</td>';
     echo '</tr>';
     $index += 1;
     }
