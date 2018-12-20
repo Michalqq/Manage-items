@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -36,6 +36,8 @@
     <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
+    <p style="top:77px; left:410px; font-size:14px">Uwagi:</p>
+    <input type="text" class="sellLine" name="Note" id="Note" style="left:470px; width: 146px; z-index:4"/>
     <input type="text" class="sellLine" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/>
     <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:238px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
     <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:320px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
@@ -233,8 +235,8 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         $todayFullDate = getFullDate(1);
         $todayDate = getFullDate(0);
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
-        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3 WHERE ID=".$ID['ID'];
-        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery']." WHERE ID=".$ID['ID'];
+        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3, Notes='".$_POST['Note']."' WHERE ID=".$ID['ID'];
+        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
             AddEcho("Record updated successfully");
@@ -370,8 +372,8 @@ $db = lacz_bd();
 $wynik= query_DB($db, $sqlParam);
 $ile_znalezionych = $wynik->num_rows;
 StartTable("hisTable", 'hisTableCSS');
-$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio", "Zysk");
-AddTableRow(10, "header1", $parameter);
+$parameter = array ("In", "Nazwa", "Cena zakupu","Data zakupu", "Cena sprzedaż", "Data sprzedaży", "Etap:", "Kwota pobran", "Ostatnio", "Zysk", "Uwagi");
+AddTableRow(11, "header1", $parameter);
 $index = 1;
 $etap = array ("Transp do PL", "W domu","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
@@ -391,8 +393,10 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     echo '<td>'.$wiersz['Cash_on_delivery'].'</td>';
     echo '<td style="width:14%">'.$wiersz['Last_action_date'].'</td>';
     $profit = round(($wiersz['Sell_price']*100/$wiersz['Buy_price'])-100,1);
-    if ($profit == -100) {$profit="---";}
-    echo '<td style="width:14%">'.$profit.'%</td>';
+    if ($profit == -100) $profit="---";
+    else ($profit = $profit."%");
+    echo '<td style="width:10%">'.$profit.'</td>';
+    echo '<td style="width:18%">'.$wiersz['Notes'].'</td>';
     echo '</tr>';
     $index += 1;
     }
