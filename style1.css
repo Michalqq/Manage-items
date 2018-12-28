@@ -88,7 +88,7 @@ tr:hover td {
     margin-top:0px;
 }
 .rightPanel {  
-    position:fixed;
+    position:absolute;
     background-color:skyblue;
     height: 360px;
     width: 652px;
@@ -114,7 +114,7 @@ tr:hover td {
     position: absolute;
     margin-left: 760px;
     margin-top: 320px;
-    width: 652px;
+    width: 900px;
     z-index: -1;
 }
 .dateLabel {
@@ -135,13 +135,13 @@ tr:hover td {
     margin-top: 275px;
 }
 .select1 {
-    position:fixed;
+    position:absolute;
     margin-top:48px;
     margin-left: 760px;
     width:142px;
 }
 .selectBuy {
-    position:fixed;
+    position:absolute;
     margin-left: 765px;
     margin-top:209px;
     width:132px;
