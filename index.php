@@ -22,8 +22,8 @@
     </div>
     <div class="rightPanel">
     <p style="top:-10px">Moja sprzedaż:</p>
-    <table id="sellTable" style="margin-left:0px; width:400px; position:relative; top:40px">
-    <tr class="header"><td style="width:150px">Nazwa</td></td><td>Cena sprzedaży</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
+    <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px">
+    <tr class="header"><td style="width:250px">Nazwa</td><td>Cena sprzedaży</td><td>Prow [%]</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
     <p style="top:140px">Moje zakupy:</p>
     <p style="top:300px; left:300px; ">Historia działań:</p>
@@ -36,11 +36,12 @@
     <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
-    <p style="top:77px; left:410px; font-size:14px">Uwagi:</p>
-    <input type="text" class="sellLine" name="Note" id="Note" style="left:470px; width: 146px; z-index:4"/>
-    <input type="text" class="sellLine" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/>
-    <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:238px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
-    <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:320px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
+    <p style="top:77px; left:435px; font-size:14px">Uwagi:</p>
+    <input type="text" class="sellLine" name="Note" id="Note" style="left:490px; width: 126px; z-index:4"/>
+    <input type="text" class="sellLine" name="Sell_price" id="Sell_price" onkeypress="validate(event, id)" style="left:145px; width: 70px;"/>
+    <input type="text" class="sellLine" name="Commission_value" id="Commission_value" onkeypress="validate(event, id)" style="left:225px; width: 40px;"/>
+    <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:278px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
+    <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:360px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
     <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:140px; width: 70px;"/> 
     <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:222px; width: 50px;"/>
     <!--<select class="select1" name="select1">
@@ -235,7 +236,8 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         $todayFullDate = getFullDate(1);
         $todayDate = getFullDate(0);
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
-        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3, Notes='".$_POST['Note']."' WHERE ID=".$ID['ID'];
+        $sell_Price = $_POST['Sell_price'] * (100 - $_POST['Commission_value'])/100;
+        if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$sell_Price.", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3, Notes='".$_POST['Note']."' WHERE ID=".$ID['ID'];
         else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
