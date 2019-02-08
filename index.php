@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style1.css">
+    <link rel="stylesheet" type="text/css" href="style2.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
-    <body>
+<body onload="randombg()">
 
 <form method="post">
     <div class="headerLogin">
@@ -22,7 +22,7 @@
     </div>
     <div class="rightPanel">
     <p style="top:-10px">Moja sprzedaż:</p>
-    <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px">
+    <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px; opacity:0.9">
     <tr class="header"><td style="width:250px">Nazwa</td><td>Cena sprzedaży</td><td>Prow [%]</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
     <p style="top:140px">Moje zakupy:</p>
@@ -33,7 +33,7 @@
     <input type="date" class="dateLine" style="top:15px; left: 155px;" id="dataStart" name="dataStart">
     <p1  class="dateLine" style = "top:0px; left: 315px">Do daty:</p1>
     <input type="date" class="dateLine" style="left: 305px; top:15px" id="dataStop" name="dataStop">
-    <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
+    <table id="buyTable" style="margin-left:0px; width:440px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
     <p style="top:77px; left:435px; font-size:14px">Uwagi:</p>
@@ -42,8 +42,8 @@
     <input type="text" class="sellLine" name="Commission_value" id="Commission_value" onkeypress="validate(event, id)" style="left:225px; width: 40px;"/>
     <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:278px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
     <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:360px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
-    <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:140px; width: 70px;"/> 
-    <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:222px; width: 50px;"/>
+    <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/> 
+    <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:242px; width: 50px;"/>
     <!--<select class="select1" name="select1">
     </select>
     <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
@@ -114,6 +114,16 @@ window.onload = function getTodayDate() {
     }
     document.getElementById("dataStop").value=fullDataToday;
     document.getElementById("dataStart").value=fullDataYesterday;
+}
+window.onload = function randombg(){
+  var random= Math.floor(Math.random() * 6) + 0;
+  var bigSize = ["url('background_image/P7252235.jpg')",
+                 "url('background_image/P3095394.jpg')",
+                 "url('background_image/P9035392.jpg')",
+                 "url('background_image/P9035374.jpg')",
+                 "url('background_image/P3095372.jpg')",
+                 "url('background_image/P3095357.jpg')"];
+  document.body.style.backgroundImage=bigSize[random];
 }
 </script>
 
@@ -195,7 +205,7 @@ for ($i=0; $i <count ($namesIndex); $i++) {
 echo '</select>';
 $showSeller = ($db->query("SELECT Seller_name FROM seller")); 
 if ($showSeller->num_rows > 0) {
-    echo '<select class="selectBuy" style="left:275px" name="selectSeller" ';
+    echo '<select class="selectBuy" style="left:305px" name="selectSeller" ';
     while($row = $showSeller->fetch_assoc()) {
         echo '<option>'.$row['Seller_name'].'</option>';
     }
@@ -422,7 +432,7 @@ function AddTableRow(int $index, $class, $parameter) {
 }
 function AddEcho($text) {
    echo " <div style='position:absolute; width:500px; height:10px; z-index:2; left:1050px; top:0px'>
-        <p>".$text."</p></div> ";
+        <p><font color='chartreuse'>".$text."</font></p></div> ";
 }
 
 ?>

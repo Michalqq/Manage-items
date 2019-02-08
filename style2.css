@@ -60,15 +60,17 @@ tr:hover {
 tr:hover td {
 }
 .mainTableClass{
+    opacity: 0.95;
     width: 750px;
     position: absolute;
 }
 .headerLogin {
     position:static;
-    height: 45px;
-    width: 1850px;
-    background-color: aquamarine;
+    height: 40px;
+    width: 480px;
+    background-color: whitesmoke;
     border-radius: 10px;
+    border: 2px solid chartreuse;
     margin-top:-15px;
 }
 .firstLine {
@@ -89,12 +91,14 @@ tr:hover td {
 }
 .rightPanel {  
     position:absolute;
-    background-color:skyblue;
+    background-color:dimgrey;
     height: 360px;
     width: 652px;
     margin-left: 760px;
     margin-top: -40px;
     border-radius: 15px;
+    border: 2px solid chartreuse;
+    opacity: 0.95;
 }
 .rightButtons {
     width: 170px;
@@ -114,7 +118,7 @@ tr:hover td {
     position: absolute;
     margin-left: 760px;
     margin-top: 320px;
-    width: 700px;
+    width: 900px;
     z-index: -1;
 }
 .dateLabel {
@@ -125,10 +129,14 @@ tr:hover td {
 .sellLine {
     position: absolute;
     margin-top: 40px;
+    background-color: white;
+    opacity: 1;
 }
 .buyLine {
     position: absolute;
     margin-top: 200px;
+    background-color: white;
+    opacity: 1;
 }
 .dateLine {
     position: absolute;
@@ -137,28 +145,32 @@ tr:hover td {
 .select1 {
     position:absolute;
     margin-top:48px;
-    margin-left: 760px;
+    margin-left: 763px;
     width:142px;
 }
 .selectBuy {
     position:absolute;
-    margin-left: 765px;
+    margin-left: 763px;
     margin-top:209px;
     width:132px;
 }
 .header1 {
     font-weight: bold;
     font-size: 9px;
-    background-color: indianred;
+    background-color: silver;
     width: 800px;}
 .header {
+    font-size: 13px;
     font-weight: bold;
-    background-color: indianred; }
+    background-image: linear-gradient(to top, rgba(255,255,255,0.8) 5%, rgba(155,150,155,1));
+}
 input[type="checkbox"]{
 cursor: pointer;
 -webkit-appearance: none;
 appearance: none;
-background-color: grey;
+background-color: gainsboro;
+border: 2px solid chartreuse;
+border-radius: 5px;
 padding: 0px;
 width: 30px;
 height: 20px;

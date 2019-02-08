@@ -13,7 +13,7 @@
 
 head, body {
     font-family:'Verdana';
-    font-size: 14px;
+    font-size: 13px;
     margin-top:15px;
     margin-left:1px;
     margin-right:400px;
@@ -21,6 +21,7 @@ head, body {
     width: 750px;
     height: 1000px;
     background-color: gainsboro;
+    background-image: url("P7252235.jpg");
 }
 p {
     position: absolute;
@@ -89,7 +90,7 @@ tr:hover td {
 }
 .rightPanel {  
     position:absolute;
-    background-color:skyblue;
+    background-color:darkgrey;
     height: 360px;
     width: 652px;
     margin-left: 760px;
@@ -148,11 +149,11 @@ tr:hover td {
 }
 .header1 {
     font-weight: bold;
-    font-size: 9px;
-    background-color: indianred;
+    font-size: 12px;
+    background-color: red;
     width: 800px;}
 .header {
-    font-size: 10px;
+    font-size: 13px;
     font-weight: bold;
     background-color: red; }
 input[type="checkbox"]{
