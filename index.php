@@ -77,12 +77,13 @@ function validate(evt,id) {
     var key = theEvent.keyCode || theEvent.which;
     if (key!="8" && key!="37" && key!="39" ){
         key = String.fromCharCode( key );
-        var regex = /[0-9]|\./;        
+        var regex = /[0-9]|\.|\,/;        
         if( !regex.test(key) ) {
             theEvent.returnValue = false;
             if(theEvent.preventDefault) theEvent.preventDefault();
         } 
     }
+    document.getElementById(id).value = document.getElementById(id).value.replace(",",".");
 }
 function multipleList() {
      if (document.getElementById("multiple_list").checked == true) document.getElementById("multiple_list").value=1
@@ -136,7 +137,7 @@ function query_DB($db, $sql) {
 function select_From_DB($Select) {
     echo '<div class="mainTableClass">';
 //połaczenie z bazą
-$rowColor = array("#ffffff","#e1f2e1", "#FFFF9F");
+$rowColor = array("#ffffff","#e1f2e1", "#FFFF9F", "#aeb6c1");
 $db = lacz_bd();
 $wynik= query_DB($db, "SELECT * FROM wskazniki WHERE Sell_price IS NULL ORDER BY Buy_date");
 $ile_znalezionych = $wynik->num_rows;
@@ -160,6 +161,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             $index += 1;
             $colorIndex = ($index % 2);
             if ($howRekordsDelivered < 2 AND $howRekordsOnDelivery<1) $colorIndex=2;
+            else if ($wiersz['delivered_to_Poland'] == NULL) $colorIndex=3;
             echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}">';
             $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
