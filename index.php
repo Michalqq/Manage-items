@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
-<body onload="randombg()">
+    <body>
 
 <form method="post">
     <div class="headerLogin">
@@ -22,7 +22,7 @@
     </div>
     <div class="rightPanel">
     <p style="top:-10px">Moja sprzedaż:</p>
-    <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px; opacity:0.9">
+    <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px">
     <tr class="header"><td style="width:250px">Nazwa</td><td>Cena sprzedaży</td><td>Prow [%]</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
     <p style="top:140px">Moje zakupy:</p>
@@ -33,7 +33,7 @@
     <input type="date" class="dateLine" style="top:15px; left: 155px;" id="dataStart" name="dataStart">
     <p1  class="dateLine" style = "top:0px; left: 315px">Do daty:</p1>
     <input type="date" class="dateLine" style="left: 305px; top:15px" id="dataStop" name="dataStop">
-    <table id="buyTable" style="margin-left:0px; width:440px; position:absolute; top:200px">
+    <table id="buyTable" style="margin-left:0px; width:400px; position:absolute; top:200px">
     <tr class="header"><td style="width:35%">Nazwa</td></td><td style="width:20%">Kwota zakupu</td><td>Ilość</td><td>Sprzedawca</td></tr>
     </table>
     <p style="top:77px; left:435px; font-size:14px">Uwagi:</p>
@@ -42,8 +42,8 @@
     <input type="text" class="sellLine" name="Commission_value" id="Commission_value" onkeypress="validate(event, id)" style="left:225px; width: 40px;"/>
     <input type="checkbox" class="sellLine" name="If_cash_on_delivery" id="If_cash_on_delivery" style="left:278px; width: 70px; top:48px" value="0" onclick="CashOnDelivery()" >
     <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:360px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
-    <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/> 
-    <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:242px; width: 50px;"/>
+    <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:140px; width: 70px;"/> 
+    <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:222px; width: 50px;"/>
     <!--<select class="select1" name="select1">
     </select>
     <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
@@ -77,13 +77,12 @@ function validate(evt,id) {
     var key = theEvent.keyCode || theEvent.which;
     if (key!="8" && key!="37" && key!="39" ){
         key = String.fromCharCode( key );
-        var regex = /[0-9]|\.|\,/;        
+        var regex = /[0-9]|\./;        
         if( !regex.test(key) ) {
             theEvent.returnValue = false;
             if(theEvent.preventDefault) theEvent.preventDefault();
         } 
     }
-    document.getElementById(id).value = document.getElementById(id).value.replace(",",".");
 }
 function multipleList() {
      if (document.getElementById("multiple_list").checked == true) document.getElementById("multiple_list").value=1
@@ -115,16 +114,6 @@ window.onload = function getTodayDate() {
     document.getElementById("dataStop").value=fullDataToday;
     document.getElementById("dataStart").value=fullDataYesterday;
 }
-window.onload = function randombg(){
-  var random= Math.floor(Math.random() * 6) + 0;
-  var bigSize = ["url('background_image/P7252235.jpg')",
-                 "url('background_image/P3095394.jpg')",
-                 "url('background_image/P9035392.jpg')",
-                 "url('background_image/P9035374.jpg')",
-                 "url('background_image/P3095372.jpg')",
-                 "url('background_image/P3095357.jpg')"];
-  document.body.style.backgroundImage=bigSize[random];
-}
 </script>
 
 <?php  
@@ -147,7 +136,7 @@ function query_DB($db, $sql) {
 function select_From_DB($Select) {
     echo '<div class="mainTableClass">';
 //połaczenie z bazą
-$rowColor = array("#ffffff","#e1f2e1", "#FFFF9F", "#aeb6c1");
+$rowColor = array("#ffffff","#e1f2e1", "#FFFF9F");
 $db = lacz_bd();
 $wynik= query_DB($db, "SELECT * FROM wskazniki WHERE Sell_price IS NULL ORDER BY Buy_date");
 $ile_znalezionych = $wynik->num_rows;
@@ -171,7 +160,6 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             $index += 1;
             $colorIndex = ($index % 2);
             if ($howRekordsDelivered < 2 AND $howRekordsOnDelivery<1) $colorIndex=2;
-            else if ($wiersz['delivered_to_Poland'] == NULL) $colorIndex=3;
             echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}">';
             $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
@@ -205,7 +193,7 @@ for ($i=0; $i <count ($namesIndex); $i++) {
 echo '</select>';
 $showSeller = ($db->query("SELECT Seller_name FROM seller")); 
 if ($showSeller->num_rows > 0) {
-    echo '<select class="selectBuy" style="left:305px" name="selectSeller" ';
+    echo '<select class="selectBuy" style="left:275px" name="selectSeller" ';
     while($row = $showSeller->fetch_assoc()) {
         echo '<option>'.$row['Seller_name'].'</option>';
     }
@@ -250,7 +238,7 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
         $sell_Price = $_POST['Sell_price'] * (100 - $_POST['Commission_value'])/100;
         if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$sell_Price.", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3, Notes='".$_POST['Note']."' WHERE ID=".$ID['ID'];
-        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
+        else $sql = "UPDATE wskazniki SET Sell_price=".$sell_Price.", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
             AddEcho("Record updated successfully");
@@ -432,7 +420,7 @@ function AddTableRow(int $index, $class, $parameter) {
 }
 function AddEcho($text) {
    echo " <div style='position:absolute; width:500px; height:10px; z-index:2; left:1050px; top:0px'>
-        <p><font color='chartreuse'>".$text."</font></p></div> ";
+        <p>".$text."</p></div> ";
 }
 
 ?>
