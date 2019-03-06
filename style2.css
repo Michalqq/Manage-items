@@ -120,6 +120,7 @@ tr:hover td {
     margin-top: 320px;
     width: 900px;
     z-index: -1;
+    opacity:0.9;
 }
 .dateLabel {
     position: absolute;

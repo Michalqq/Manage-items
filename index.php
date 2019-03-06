@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="style2.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
-<body onload="randombg()">
+    <body>
 
 <form method="post">
     <div class="headerLogin">
@@ -103,9 +103,10 @@ window.onload = function getTodayDate() {
     let data = new Date;
     let fullDataToday;
     let fullDataYesterday;
+    //alert(data.getDate());
     if (data.getDate()<10) fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + data.getDate();
     else fullDataToday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + data.getDate();
-    if (data.getDate()<10) fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
+    if (data.getDate()<11) fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-0" + (data.getDate()-1);
     else fullDataYesterday = data.getFullYear() + "-" + (data.getMonth()+1) + "-" + (data.getDate()-1);
     if (data.getMonth()-1<10) {
         
@@ -114,13 +115,12 @@ window.onload = function getTodayDate() {
     }
     document.getElementById("dataStop").value=fullDataToday;
     document.getElementById("dataStart").value=fullDataYesterday;
-}
-window.onload = function randombg(){
+
   var random= Math.floor(Math.random() * 6) + 0;
   var bigSize = ["url('background_image/P7252235.jpg')",
                  "url('background_image/P3095394.jpg')",
-                 "url('background_image/P9035392.jpg')",
-                 "url('background_image/P9035374.jpg')",
+                 "url('background_image/P3095392.jpg')",
+                 "url('background_image/P3095374.jpg')",
                  "url('background_image/P3095372.jpg')",
                  "url('background_image/P3095357.jpg')"];
   document.body.style.backgroundImage=bigSize[random];
@@ -250,7 +250,7 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         //$updateSellValue = "UPDATE wskazniki SET Sell_price=NULL ,Sell_date = NULL";
         $sell_Price = $_POST['Sell_price'] * (100 - $_POST['Commission_value'])/100;
         if ($_POST['Cash_on_delivery']=="") $sql = "UPDATE wskazniki SET Sell_price=".$sell_Price.", Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', delivered_to_Poland = 3, Notes='".$_POST['Note']."' WHERE ID=".$ID['ID'];
-        else $sql = "UPDATE wskazniki SET Sell_price=".$_POST['Sell_price'].", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
+        else $sql = "UPDATE wskazniki SET Sell_price=".$sell_Price.", delivered_to_Poland = 2, Sell_date='".$todayDate."', Last_action_date='".$todayFullDate."', If_cash_on_delivery = 1, Cash_on_delivery=".$_POST['Cash_on_delivery'].", Notes='".$_POST['Note']."'  WHERE ID=".$ID['ID'];
         $updateSellValue = $sql;
         if ($db->query($updateSellValue)=== TRUE ) {
             AddEcho("Record updated successfully");
