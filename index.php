@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-    <link rel="stylesheet" type="text/css" href="style2.css">
+    <link rel="stylesheet" type="text/css" href="style1.css">
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -23,7 +23,7 @@
     <div class="rightPanel">
     <p style="top:-10px">Moja sprzedaż:</p>
     <table id="sellTable" style="margin-left:0px; width:440px; position:relative; top:40px; opacity:0.9">
-    <tr class="header"><td style="width:250px">Nazwa</td><td>Cena sprzedaży</td><td>Prow [%]</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
+    <tr class="header"><td style="width:130px">Nazwa</td><td>Cena sprzedaży</td><td>Prow [%]</td><td>Pobranie</td><td>Kwota pobrania</td></tr>
     </table>
     <p style="top:140px">Moje zakupy:</p>
     <p style="top:300px; left:300px; ">Historia działań:</p>
