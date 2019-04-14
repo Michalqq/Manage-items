@@ -125,6 +125,15 @@ window.onload = function getTodayDate() {
                  "url('background_image/P3095357.jpg')"];
   document.body.style.backgroundImage=bigSize[random];
 }
+function selectRow(x){
+    if (x.className != ''){
+        x.style = 'background-color:' + x.className;
+        x.className = ''
+    }else {
+        x.className = x.style.backgroundColor;
+        x.style = 'background-color:blue';
+    }
+}
 </script>
 
 <?php  
@@ -172,7 +181,8 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             $colorIndex = ($index % 2);
             if ($howRekordsDelivered < 2 AND $howRekordsOnDelivery<1) $colorIndex=2;
             else if ($wiersz['delivered_to_Poland'] == NULL) $colorIndex=3;
-            echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}">';
+            //echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}" onclick="selectRow(this)">';
+            echo '<tr style="background-color:'.$rowColor[$colorIndex].'" onclick="selectRow(this)">';
             $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
             $wiersz2 = $wynik2->fetch_assoc();

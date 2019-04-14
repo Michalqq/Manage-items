@@ -107,6 +107,10 @@ tr:hover td {
     position: absolute;
     text-align: right;
 }
+.selected {
+    background-color: blue;
+    color: #FFF;
+}
 .selectsInput {
     margin-top: -980px;
     position: absolute;
