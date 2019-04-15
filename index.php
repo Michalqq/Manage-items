@@ -7,6 +7,7 @@
     <body>
 
 <form method="post">
+    <input id="checkedValue" name="checkedValue" style="position:absolute; left:600px">
     <div class="headerLogin">
         <p1 class="firstLine" style="left: 10px"><b>Login:</b></p1> 
         <input id="login" class="firstLine" type="text" name="login" style="height:25px; left: 5px" value="Michal">
@@ -126,6 +127,7 @@ window.onload = function getTodayDate() {
   document.body.style.backgroundImage=bigSize[random];
 }
 function selectRow(x){
+    document.getElementById('checkedValue').value = "";
     if (x.className == '') {
         iterateTableAndUncheck();
     }
@@ -135,7 +137,8 @@ function selectRow(x){
     }else {
         x.className = x.style.backgroundColor;
         x.style = 'background-color:#63ff8d; border: 3px solid black;';
-    }
+    }  
+    iterateTableGetChecked();
 }
 function iterateTableAndUncheck(){
     let table = document.getElementById('mainTable');
@@ -152,7 +155,8 @@ function iterateTableGetChecked(){
     for (let row of table.rows) 
     {
 		if (row.className != '' & row.className != 'header'){
-            return (row.cells[2].innerText);
+            document.getElementById('checkedValue').value = row.cells[2].innerText;
+            //return (row.cells[2].innerText);
         }
     }  
 }
@@ -232,7 +236,7 @@ for ($i=0; $i <$tempIndex; $i++) {
 echo '</select>';
 echo '<select class="select1" name="select1">';
 for ($i=0; $i <count ($namesIndex); $i++) {
-    echo '<option>'.$namesIndex[$i].'</option>';
+    echo '<option value=>'.$namesIndex[$i].'</option>';
 }
 echo '</select>';
 $showSeller = ($db->query("SELECT Seller_name FROM seller")); 
@@ -271,7 +275,8 @@ if (isset($_POST['sellBtn'])) { // Update record when SELL item
         exit();
     } else {
         $db = lacz_bd();
-        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['select1']."'";
+        //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['select1']."'";------------------------
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
         $selectOneItem = "SELECT ID FROM wskazniki WHERE delivered_to_Poland = 1 AND Sell_price IS NULL AND Item_ID = '".$itemID['ID']."'";
@@ -300,7 +305,8 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         exit();
     } else {
         $db = lacz_bd();
-        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";//------------------------
+        //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
         $selectSellerId = "SELECT ID FROM seller WHERE Seller_name = '".$_POST['selectSeller']."'";
@@ -328,7 +334,8 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
         exit();
     } else {
         $db = lacz_bd();
-        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";
+        //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'"; ------------------------
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
         $selectUndeliveredItems = "SELECT ID FROM wskazniki WHERE delivered_to_Poland IS NULL AND Item_ID = '".$itemID['ID']."' ORDER BY Buy_date";
