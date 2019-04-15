@@ -14,7 +14,7 @@
         <input id="password" class="firstLine"  type="password" name="password" style="height:25px; left:10px;" value="123">
     </div>
     <div class="secondPart">
-    <input type="submit"  class="secondLine" name="mainTable" id="mainTable" style=" height:31px; margin-left:60px"  value="Pokaż wszystkie elementy" />
+    <input type="submit"  class="secondLine" name="mainTable" id="mainTableShow" style=" height:31px; margin-left:60px"  value="Pokaż wszystkie elementy" />
     <p1  class="secondLine" style=""><b>FILTR:</b></p1> 
     <input id="filter"  class="secondLine" type="text" name="filter" style="height:25px; margin-left:3px" value="">
     <p1  class="secondLine" style=""><b>Multiple-line:</b></p1> 
@@ -126,6 +126,9 @@ window.onload = function getTodayDate() {
   document.body.style.backgroundImage=bigSize[random];
 }
 function selectRow(x){
+    if (x.className == '') {
+        iterateTableAndUncheck();
+    }
     if (x.className != ''){
         x.style = 'background-color:' + x.className;
         x.className = ''
@@ -133,6 +136,16 @@ function selectRow(x){
         x.className = x.style.backgroundColor;
         x.style = 'background-color:blue';
     }
+}
+function iterateTableAndUncheck(){
+    let table = document.getElementById('mainTable');
+    for (let row of table.rows) 
+    {
+		if (row.className != '' & row.className != 'header'){
+            row.style = 'background-color:' + row.className;
+            row.className = ''
+        }
+    }  
 }
 </script>
 
