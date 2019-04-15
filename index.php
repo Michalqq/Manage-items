@@ -134,7 +134,7 @@ function selectRow(x){
         x.className = ''
     }else {
         x.className = x.style.backgroundColor;
-        x.style = 'background-color:blue';
+        x.style = 'background-color:#63ff8d; border: 3px solid black;';
     }
 }
 function iterateTableAndUncheck(){
@@ -144,6 +144,15 @@ function iterateTableAndUncheck(){
 		if (row.className != '' & row.className != 'header'){
             row.style = 'background-color:' + row.className;
             row.className = ''
+        }
+    }  
+}
+function iterateTableGetChecked(){
+    let table = document.getElementById('mainTable');
+    for (let row of table.rows) 
+    {
+		if (row.className != '' & row.className != 'header'){
+            return (row.cells[2].innerText);
         }
     }  
 }
