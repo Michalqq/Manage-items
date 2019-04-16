@@ -194,7 +194,7 @@ $namesIndex = array();
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();
-    $wynik3= query_DB($db, "SELECT * FROM item WHERE Name LIKE '%$Select%' AND ID=".$wiersz['Item_ID']);
+    $wynik3= query_DB($db, "SELECT * FROM item WHERE Name LIKE '%$Select%' AND Item_ID=".$wiersz['Item_ID']);
     $howRekordsDelivered = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland=1 AND Sell_price IS NULL"))->num_rows;
     $howRekordsOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland IS NULL"))->num_rows;
     $wiersz3 = $wynik3->fetch_assoc();
@@ -209,7 +209,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             else if ($wiersz['delivered_to_Poland'] == NULL) $colorIndex=3;
             //echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}" onclick="selectRow(this)">';
             echo '<tr style="background-color:'.$rowColor[$colorIndex].'" onclick="selectRow(this)">';
-            $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
+            $zapytanie2 = "SELECT Name FROM item WHERE Item_ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
             $wiersz2 = $wynik2->fetch_assoc();
             echo "<td></td>";
@@ -252,7 +252,7 @@ if ($showSeller->num_rows > 0) {
     if ($showCashOnDelivery->num_rows > 0) {
     echo '<select class="select1" name="selectCashOnDelivery" style="width:300px; top:135px; left:80px">';
     while($row = $showCashOnDelivery->fetch_assoc()) {
-        $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
+        $showName = ($db->query("SELECT Name FROM item WHERE Item_ID=".$row['Item_ID']."")); 
         $row2 = $showName->fetch_assoc();
         //echo("<option>".strtotime($row['Sell_date'])."  ".strtotime(getFullDate(0))."</option>");
         if (strtotime(getFullDate(0))-6*24*60*60>strtotime($row['Sell_date'])) {
@@ -305,7 +305,7 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         exit();
     } else {
         $db = lacz_bd();
-        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";//------------------------
+        $selectItemId = "SELECT Item_ID FROM item WHERE Name = '".$_POST['selectBuy']."'";//------------------------
         //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
@@ -335,7 +335,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
     } else {
         $db = lacz_bd();
         //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'"; ------------------------
-        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
+        $selectItemId = "SELECT Item_ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
         $selectUndeliveredItems = "SELECT ID FROM wskazniki WHERE delivered_to_Poland IS NULL AND Item_ID = '".$itemID['ID']."' ORDER BY Buy_date";
@@ -364,7 +364,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
 if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
     $data = explode("_", $_POST['selectCashOnDelivery']);
     $db = lacz_bd();
-    $wynik0 = query_DB($db, "SELECT ID FROM item WHERE Name = '".$data[0]."'");
+    $wynik0 = query_DB($db, "SELECT Item_ID FROM item WHERE Name = '".$data[0]."'");
     $itemID = $wynik0->fetch_assoc();
     $todayFullDate = getFullDate(1);
     $updateStatus = "UPDATE wskazniki SET delivered_to_Poland=3, Last_action_date='".$todayFullDate."' WHERE Item_ID=".$itemID['ID']." AND Sell_date = '".$data[4]."' AND Cash_on_delivery = ".$data[2];
@@ -432,7 +432,7 @@ $etap = array ("Transp do PL", "W domu","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();
-    $wynik2= query_DB($db, "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID']);
+    $wynik2= query_DB($db, "SELECT Name FROM item WHERE Item_ID=".$wiersz['Item_ID']);
     $wiersz2 = $wynik2->fetch_assoc();
     if ($wiersz['delivered_to_Poland'] =="") $wiersz['delivered_to_Poland'] = 0;
     echo '<tr style="font-size:11px; background-color:'.$rowColor[($wiersz['delivered_to_Poland'])].';hover {background-color: yellow}">';
