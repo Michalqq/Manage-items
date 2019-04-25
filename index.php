@@ -45,14 +45,6 @@
     <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:360px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
     <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/> 
     <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:242px; width: 50px;"/>
-    <!--<select class="select1" name="select1">
-    </select>
-    <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
-    </select>
-    <select class="selectBuy" name="selectBuy">
-    </select>
-    <select class="selectBuy" name="selectSeller" style="margin-left:280px">
-    </select>-->
     <select id="histOption" name="histOption" class="dateLine" style="left:500px; top:50px; width:120px;">
         <option value="4">Wszystko</option>
         <option value="0">W transporcie</option>
@@ -69,7 +61,6 @@
     <input type="submit" name="SellPriceSum" id="SellPriceSum" style="margin-top: 270px; margin-left:15px; width: 100px; height: 30px" value="Wart. sprzedaży"/>
     <input type="submit" name="SellPriceNet" id="SellPriceNet" style="position:absolute; margin-top: 270px; left:130px; width:100px; height:30px" value="Wart. netto"/>
     </div>
-<!--</form>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script> 
@@ -473,7 +464,6 @@ function AddEcho($text) {
    echo " <div style='position:absolute; width:500px; height:10px; z-index:2; left:1050px; top:0px'>
         <p><font color='chartreuse'>".$text."</font></p></div> ";
 }
-
 ?>
  </body>
 </html>
