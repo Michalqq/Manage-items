@@ -2,6 +2,7 @@
 <html>
    <head>
     <link rel="stylesheet" type="text/css" href="style1.css">
+       <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
    </head>
     <body>
@@ -45,6 +46,14 @@
     <input type="text" class="sellLine" name="Cash_on_delivery" id="Cash_on_delivery" style="left:360px; width: 70px; background-color:#dddddd" onkeypress="validate(event, id)" readonly/>
     <input type="text" class="buyLine" name="Buy_price" id="Buy_price" onkeypress="validate(event, id)" style="left:150px; width: 70px;"/> 
     <input type="text" class="buyLine" name="Quantity" id="Quantity" onkeypress="validate(event, id)" style="left:242px; width: 50px;"/>
+    <!--<select class="select1" name="select1">
+    </select>
+    <select class="select1" name="selectCashOnDelivery" style="margin-left:90px; top:163px">
+    </select>
+    <select class="selectBuy" name="selectBuy">
+    </select>
+    <select class="selectBuy" name="selectSeller" style="margin-left:280px">
+    </select>-->
     <select id="histOption" name="histOption" class="dateLine" style="left:500px; top:50px; width:120px;">
         <option value="4">Wszystko</option>
         <option value="0">W transporcie</option>
@@ -56,14 +65,25 @@
     <input type="submit" name="confirmCashOnDelivery" id="confirmCashOnDelivery" style="margin-top: 50px; width: 170px; height: 30px;"  value="Potwierdź pobranie" />
     <input type="submit" name="buyBtn" id="buyBtn" style="margin-top: 50px; width: 170px; height: 30px;"  value="Dodaj zakupione do bazy" />
     <input type="submit" name="confirmDeliverToPL" id="confirmDeliverToPL" style="margin-top:10px; top: 270px; width: 170px; height: 30px;"  value="Potwierdź dostawę do PL" />
-    <input type="submit" name="showHistory" id="showHistory" style="margin-top: 15px; width: 120px; height: 30px;"  value="Pokaż historię" />
+    <input type="submit" name="showHistory" id="showHistory" style="margin-top: 15px; width: 120px; height: 30px;" onclick="getChart()" value="Pokaż historię" />
     </div>
     <input type="submit" name="SellPriceSum" id="SellPriceSum" style="margin-top: 270px; margin-left:15px; width: 100px; height: 30px" value="Wart. sprzedaży"/>
     <input type="submit" name="SellPriceNet" id="SellPriceNet" style="position:absolute; margin-top: 270px; left:130px; width:100px; height:30px" value="Wart. netto"/>
     </div>
+    <div style="width:200px">
+    <canvas id="myChart" style=" border-radius:15px; margin-left:1290px; margin-top:-40px; width:656px; height:1155px; position:absolute"></canvas>
+    </div>
+<!--</form>-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script> 
+
+function dynamicColors(){
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
 function validate(evt,id) {
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
@@ -153,7 +173,8 @@ function iterateTableGetChecked(){
 }
 </script>
 
-<?php  
+<?php
+$num = array();
 function lacz_bd() {
     $password = $_POST['password'];
     $login = $_POST['login'];
@@ -185,7 +206,7 @@ $namesIndex = array();
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();
-    $wynik3= query_DB($db, "SELECT * FROM item WHERE Name LIKE '%$Select%' AND Item_ID=".$wiersz['Item_ID']);
+    $wynik3= query_DB($db, "SELECT * FROM item WHERE Name LIKE '%$Select%' AND ID=".$wiersz['Item_ID']);
     $howRekordsDelivered = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland=1 AND Sell_price IS NULL"))->num_rows;
     $howRekordsOnDelivery = ($db->query("SELECT * FROM wskazniki WHERE Item_ID=".$wiersz['Item_ID']." AND delivered_to_Poland IS NULL"))->num_rows;
     $wiersz3 = $wynik3->fetch_assoc();
@@ -200,7 +221,7 @@ for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
             else if ($wiersz['delivered_to_Poland'] == NULL) $colorIndex=3;
             //echo '<tr style="background-color:'.$rowColor[$colorIndex].';hover {background-color: yellow}" onclick="selectRow(this)">';
             echo '<tr style="background-color:'.$rowColor[$colorIndex].'" onclick="selectRow(this)">';
-            $zapytanie2 = "SELECT Name FROM item WHERE Item_ID=".$wiersz['Item_ID'];
+            $zapytanie2 = "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID'];
             $wynik2 = $db->query($zapytanie2);
             $wiersz2 = $wynik2->fetch_assoc();
             echo "<td></td>";
@@ -243,7 +264,7 @@ if ($showSeller->num_rows > 0) {
     if ($showCashOnDelivery->num_rows > 0) {
     echo '<select class="select1" name="selectCashOnDelivery" style="width:300px; top:135px; left:80px">';
     while($row = $showCashOnDelivery->fetch_assoc()) {
-        $showName = ($db->query("SELECT Name FROM item WHERE Item_ID=".$row['Item_ID']."")); 
+        $showName = ($db->query("SELECT Name FROM item WHERE ID=".$row['Item_ID']."")); 
         $row2 = $showName->fetch_assoc();
         //echo("<option>".strtotime($row['Sell_date'])."  ".strtotime(getFullDate(0))."</option>");
         if (strtotime(getFullDate(0))-6*24*60*60>strtotime($row['Sell_date'])) {
@@ -296,7 +317,7 @@ if (isset($_POST['buyBtn'])) { // Set record when BUY item
         exit();
     } else {
         $db = lacz_bd();
-        $selectItemId = "SELECT Item_ID FROM item WHERE Name = '".$_POST['selectBuy']."'";//------------------------
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'";//------------------------
         //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
@@ -326,7 +347,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
     } else {
         $db = lacz_bd();
         //$selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['selectBuy']."'"; ------------------------
-        $selectItemId = "SELECT Item_ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
+        $selectItemId = "SELECT ID FROM item WHERE Name = '".$_POST['checkedValue']."'";
         $wynik0 = $db->query($selectItemId);
         $itemID = $wynik0->fetch_assoc();
         $selectUndeliveredItems = "SELECT ID FROM wskazniki WHERE delivered_to_Poland IS NULL AND Item_ID = '".$itemID['ID']."' ORDER BY Buy_date";
@@ -355,7 +376,7 @@ if (isset($_POST['confirmDeliverToPL'])) { // Update record when item arrived to
 if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
     $data = explode("_", $_POST['selectCashOnDelivery']);
     $db = lacz_bd();
-    $wynik0 = query_DB($db, "SELECT Item_ID FROM item WHERE Name = '".$data[0]."'");
+    $wynik0 = query_DB($db, "SELECT ID FROM item WHERE Name = '".$data[0]."'");
     $itemID = $wynik0->fetch_assoc();
     $todayFullDate = getFullDate(1);
     $updateStatus = "UPDATE wskazniki SET delivered_to_Poland=3, Last_action_date='".$todayFullDate."' WHERE Item_ID=".$itemID['ID']." AND Sell_date = '".$data[4]."' AND Cash_on_delivery = ".$data[2];
@@ -367,6 +388,8 @@ if (isset ($_POST['confirmCashOnDelivery'])) { //POBRANIE
         }
 }
 if (isset($_POST['showHistory'])) { // Show action history
+    
+    getSellPriceForChart();
     $histOption = $_POST['histOption'];
     $sqlWhere="";
     if ($histOption!=4) {
@@ -400,6 +423,40 @@ function getSumSellPrice($index) {
     if ($index==2) return ($Sell_price_SUM-$Buy_price_SUM)."zł";
     else return $Sell_price_SUM."zł";
 }
+function getSellPriceForChart(){
+    global $num;
+    $db = lacz_bd();
+    $month = date("m");
+    for($i=4; $i > -1; $i--){
+        $Sell_price = query_DB($db, "SELECT SUM(Sell_price) AS count FROM wskazniki WHERE Sell_date BETWEEN '2019-0".($month - $i)."-01 00:00:00' AND '2019-0".($month - $i)."-31 23:59:59'"); 
+        $rec  = $Sell_price->fetch_assoc();
+        $Sell_price_SUM = 0;
+        $Sell_price_SUM = round($rec['count'],0);
+        $Buy_price= query_DB($db, "SELECT SUM(Buy_price) AS count1 FROM wskazniki WHERE Sell_price IS NOT NULL AND (Sell_date BETWEEN '2019-0".($month - $i)."-01 00:00:00' AND '2019-0".($month - $i)."-31 23:59:59')"); 
+        $Buy_price_SUM = 0;
+        $rec1  = $Buy_price->fetch_assoc();
+        $Buy_price_SUM = round($rec1['count1'], 0);
+        array_push($num, ($Sell_price_SUM-$Buy_price_SUM));
+    }
+    echo "
+    <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+	document.getElementById('myChart').style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+    var chart = new Chart(ctx, {
+    responsive: true,
+    type: 'bar',
+    zindex: 5,
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+            label: 'History',
+            backgroundColor: [dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),],
+            data: [".$num[0].",". $num[1].",". $num[2].",". $num[3].",". $num[4]."]
+            
+        }]
+    },
+}); </script>";
+}
 function getFullDate($value) {
 $today = getdate(); 
 $todayDate = $today['year']."-".$today['mon']."-".$today['mday'];
@@ -423,7 +480,7 @@ $etap = array ("Transp do PL", "W domu","Za pobraniem", "Sprzedane");
 for ($i=0; $i <$ile_znalezionych; $i++) { // Create main table
     $temp = 0;
     $wiersz = $wynik->fetch_assoc();
-    $wynik2= query_DB($db, "SELECT Name FROM item WHERE Item_ID=".$wiersz['Item_ID']);
+    $wynik2= query_DB($db, "SELECT Name FROM item WHERE ID=".$wiersz['Item_ID']);
     $wiersz2 = $wynik2->fetch_assoc();
     if ($wiersz['delivered_to_Poland'] =="") $wiersz['delivered_to_Poland'] = 0;
     echo '<tr style="font-size:11px; background-color:'.$rowColor[($wiersz['delivered_to_Poland'])].';hover {background-color: yellow}">';
@@ -464,6 +521,7 @@ function AddEcho($text) {
    echo " <div style='position:absolute; width:500px; height:10px; z-index:2; left:1050px; top:0px'>
         <p><font color='chartreuse'>".$text."</font></p></div> ";
 }
+
 ?>
  </body>
 </html>
