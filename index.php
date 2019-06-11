@@ -427,7 +427,7 @@ function getSellPriceForChart(){
     global $num;
     $db = lacz_bd();
     $month = date("m");
-    for($i=4; $i > -1; $i--){
+    for($i=$month-1; $i > -1; $i--){
         $Sell_price = query_DB($db, "SELECT SUM(Sell_price) AS count FROM wskazniki WHERE Sell_date BETWEEN '2019-0".($month - $i)."-01 00:00:00' AND '2019-0".($month - $i)."-31 23:59:59'"); 
         $rec  = $Sell_price->fetch_assoc();
         $Sell_price_SUM = 0;
@@ -451,7 +451,7 @@ function getSellPriceForChart(){
         datasets: [{
             label: 'History',
             backgroundColor: [dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),dynamicColors(),],
-            data: [".$num[0].",". $num[1].",". $num[2].",". $num[3].",". $num[4]."]
+            data: [".$num[0].",". $num[1].",". $num[2].",". $num[3].",". $num[4].",". $num[5]."]
             
         }]
     },
